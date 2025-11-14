@@ -143,14 +143,14 @@ pub const ROOT_ZONE_MEMORY_REGIONS: [HvConfigMemoryRegion; 7] = [
 pub const HW_IRQS: [u32; 3] = [
     0x4f, // emmc
     0x51, // sd-card
-    0x64  // uart0
+    0x64, // uart0
 ];
 
 // irqs belong to the root zone.
-pub const ROOT_ZONE_IRQS: [u32; 2] = [
+pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[
     0x51, // sd-card
-    0x64  // uart0
-];
+    0x64, // uart0
+]);
 
 pub const ROOT_ARCH_ZONE_CONFIG: HvArchZoneConfig = HvArchZoneConfig {
     plic_base: 0xc000000,
