@@ -132,7 +132,7 @@ fn primary_init_early() {
 
     device::irqchip::primary_init_early();
 
-    iommu_init();
+    // iommu_init();
 
     #[cfg(not(test))]
     {
