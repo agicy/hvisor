@@ -3859,10 +3859,10 @@
 		reset-names = "axi\0ahb\0dclk_vp0\0dclk_vp1\0dclk_vp2\0dclk_vp3";
 		iommus = <0xbb>;
 		power-domains = <0x2003 1>;
-		rockchip,grf = <0xbd> /* fake sys-grf -> vo1-grf */;
+		rockchip,grf = <0xad>;
 		rockchip,vop-grf = <0xbc>;
 		rockchip,vo1-grf = <0xbd>;
-		rockchip,pmu = <0xbd> /* fake pmu -> vo1-grf */;
+		rockchip,pmu = <0xbe>;
 		status = "okay";
 		support-multi-area;
 

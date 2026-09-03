@@ -39,6 +39,12 @@
     },
     {
       "type": "io",
+      "physical_start": "0xfd8d8000",
+      "virtual_start": "0xfd8d8000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
       "physical_start": "0xfd5a0000",
       "virtual_start": "0xfd5a0000",
       "size": "0x1000"
