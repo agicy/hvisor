@@ -2387,7 +2387,6 @@
 			host-port {
 				#phy-cells = <0x00>;
 				status = "okay";
-				phy-supply = <0x5c>;
 				phandle = <0x56>;
 			};
 		};
