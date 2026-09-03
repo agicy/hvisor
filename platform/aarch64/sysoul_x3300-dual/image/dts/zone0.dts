@@ -7433,8 +7433,8 @@
 		reg-io-width = <0x04>;
 		dmas = <0x7a 0x0a 0x7a 0x0b>;
 		pinctrl-names = "default";
-		pinctrl-0 = <0x209>; /* uart2m0, same pins as previous fiq console */
-		status = "okay"; /* root console uart2 (8250) */
+		 /* uart2m0, same pins as previous fiq console */
+		status = "disabled"; /* root console uart2 (8250) */
 		phandle = <0x2f7>;
 	};
 
@@ -12716,7 +12716,7 @@
 	};
 
 	chosen {
-		bootargs = "root=PARTUUID=614e0000-0000-4b53-8000-1d28000054a9 rootfstype=ext4 rw rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyS2,115200 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
+		bootargs = "root=PARTUUID=614e0000-0000-4b53-8000-1d28000054a9 rootfstype=ext4 rw rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyFIQ0 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
 		phandle = <0x4c8>;
 	};
 
@@ -12741,7 +12741,7 @@
 		interrupts = <0x00 0x1a7 0x08>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0x209>;
-		status = "disabled"; /* dual config: root console is plain uart2 (ttyS2); irq not routed to root */
+		status = "okay"; /* dual config: root console is plain uart2 (ttyS2); irq not routed to root */
 		phandle = <0x4cb>;
 	};
 

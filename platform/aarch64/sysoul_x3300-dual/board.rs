@@ -239,6 +239,7 @@ pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[
     0x168, // spi@feb20000 (spi2: rk806 PMIC)
     0x16d, // serial@feb50000 (uart2: root console ttyS2)
     0x1ad, // tsadc@fec00000
+    0x1c7, // fiq-debugger (uart2 console ttyFIQ0, irq-mode)
     0x1ae, // saradc@fec10000
     0x1b0, // rng@fe378000
     // usb (kept for root; zone1/zone2 have no usb)
