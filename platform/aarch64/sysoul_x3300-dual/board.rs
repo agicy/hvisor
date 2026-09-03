@@ -218,268 +218,39 @@ pub const ROOT_ZONE_MEMORY_REGIONS: &[HvConfigMemoryRegion] = &[
 ];
 
 pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[
+    // core / platform
     0x27, // arm-pmu
+    0x29, // gic
+    0x2a, 0x2b, 0x2d, 0x2e, // arch timer
+    0x40, // hvisor_virtio_device
     0x69, // dmc
-    0x2d, // timer
-    0x2e, // timer
-    0x2b, // timer
-    0x2a, // timer
-    // GPU IRQs moved to zone2 (android):
-    // 0x7e, // gpu@fb000000
-    // 0x7d, // gpu@fb000000
-    // 0x7c, // gpu@fb000000
-    0xfc, // usb@fc000000
-    0xf7, // usb@fc800000
-    0xf8, // usb@fc840000
-    0xfa, // usb@fc880000
-    0xfb, // usb@fc8c0000
-    0x191, // iommu@fc900000
-    0x193, // iommu@fc900000
-    0x196, // iommu@fc900000
-    0x18f, // iommu@fc900000
-    0x19d, // iommu@fcb00000
-    0x19f, // iommu@fcb00000
-    0x1a2, // iommu@fcb00000
-    0x19b, // iommu@fcb00000
-    0xfe, // usb@fcd00000
-    0x1a9, // usb2-phy@0
-    0x1a7, // usb2-phy@8000
-    0x1a8, // usb2-phy@c000
-    0x15d, // i2c@fd880000
-    0x16b, // serial@fd890000
-    // pwm@fd8b0000-30 IRQs (0x178/0x179) moved to zone2 (android lcd backlight
-    // uses pwm@fd8b0010); root dts keeps these pwm nodes disabled.
-    // NPU IRQs moved to zone1:
-    // 0x8e, // npu@fdab0000
-    // 0x8f, // npu@fdab0000
-    // 0x90, // npu@fdab0000
-    // 0x8e, // iommu@fdab9000
-    // 0x8f, // iommu@fdab9000
-    // 0x90, // iommu@fdab9000
-    0x98, // vepu@fdb50000
-    0x97, // vdpu@fdb50400
-    0x96, // iommu@fdb50800
-    0x97, // avsd-plus@fdb51000
-    0x92, // rga@fdb60000
-    0x92, // iommu@fdb60f00
-    0x93, // rga@fdb70000
-    0x93, // iommu@fdb70f00
-    0x94, // rga@fdb80000
-    0xa1, // jpegd@fdb90000
-    0xa2, // iommu@fdb90480
-    0x9a, // jpege-core@fdba0000
-    0x99, // iommu@fdba0800
-    0x9c, // jpege-core@fdba4000
-    0x9b, // iommu@fdba4800
-    0x9e, // jpege-core@fdba8000
-    0x9d, // iommu@fdba8800
-    0xa0, // jpege-core@fdbac000
-    0x9f, // iommu@fdbac800
-    0x95, // iep@fdbb0000
-    0x95, // iommu@fdbb0800
-    0x85, // rkvenc-core@fdbd0000
-    0x83, // iommu@fdbdf000
-    0x84, // iommu@fdbdf000
-    0x88, // rkvenc-core@fdbe0000
-    0x86, // iommu@fdbef000
-    0x87, // iommu@fdbef000
-    0x7f, // rkvdec-core@fdc38000
-    0x80, // iommu@fdc38700
-    0x81, // rkvdec-core@fdc48000
-    0x82, // iommu@fdc48700
-    0x8c, // av1d@fdc70000
-    0x8b, // av1d@fdc70000
-    0x8a, // av1d@fdc70000
-    0x8d, // iommu@fdca0000
-    0xa7, // rkisp-unite@fdcb0000
-    0xa9, // rkisp-unite@fdcb0000
-    0xaa, // rkisp-unite@fdcb0000
-    0xa3, // rkisp@fdcb0000
-    0xa5, // rkisp@fdcb0000
-    0xa6, // rkisp@fdcb0000
-    0xa4, // rkisp-unite-mmu@fdcb7f00
-    0xa8, // rkisp-unite-mmu@fdcb7f00
-    0xa4, // iommu@fdcb7f00
-    0xa7, // rkisp@fdcc0000
-    0xa9, // rkisp@fdcc0000
-    0xaa, // rkisp@fdcc0000
-    0xa8, // iommu@fdcc7f00
-    0xab, // rkispp@fdcd0000
-    0xac, // iommu@fdcd0f00
-    0xad, // rkispp@fdcd8000
-    0xae, // iommu@fdcd8f00
-    0xbb, // rkcif@fdce0000
-    0x91, // iommu@fdce0800
-    0xaf, // mipi0-csi2@fdd10000
-    0xb0, // mipi0-csi2@fdd10000
-    0xb1, // mipi1-csi2@fdd20000
-    0xb2, // mipi1-csi2@fdd20000
-    0xb3, // mipi2-csi2@fdd30000
-    0xb4, // mipi2-csi2@fdd30000
-    0xb5, // mipi3-csi2@fdd40000
-    0xb6, // mipi3-csi2@fdd40000
-    // 0xbc, // vop@fdd90000 — moved to zone2 (android)
-    // 0xbc, // iommu@fdd97e00 — moved to zone2 (android)
-    0xe3, // spdif-tx@fddb0000
-    0xd8, // i2s@fddc0000
-    0xe4, // spdif-tx@fdde0000
-    0xd9, // i2s@fddf0000
-    0xdd, // i2s@fddfc000
-    0xe7, // spdif-rx@fde08000
-    // 0xc7, // dsi@fde20000 — moved to zone2 (android dsi0)
-    0xc8, // dsi@fde30000 — unused (disabled in root & zone2; only dsi0 used)
-    0xbf, // hdcp@fde40000
-    0xc1, // dp@fde50000
-    0xc0, // hdcp@fde70000
-    // HDMI0/1 IRQs (0xc9-0xcc, 0x188, 0xcd-0xd0, 0x189) — not exposed in the
-    // dual config: zone2 (android) drives DSI only, and root keeps the hdmi
-    // nodes disabled in its dts, so these SPIs are simply unowned.
-    0xc3, // edp@fdec0000
-    0x118, // pcie@fe180000
-    0x117, // pcie@fe180000
-    0x116, // pcie@fe180000
-    0x115, // pcie@fe180000
-    0x114, // pcie@fe180000
-    0x115, // legacy-interrupt-controller
-    0x11d, // pcie@fe190000
-    0x11c, // pcie@fe190000
-    0x11b, // pcie@fe190000
-    0x11a, // pcie@fe190000
-    0x119, // pcie@fe190000
-    0x11a, // legacy-interrupt-controller
-    0x10a, // ethernet@fe1c0000
-    0x109, // ethernet@fe1c0000
-    0x131, // sata@fe210000
-    0x133, // sata@fe230000
-    0xee, // spi@fe2b0000
-    0xeb, // mmc@fe2c0000 — sdmmc (root-linux rootfs on SD/TF card)
-    0xec, // mmc@fe2d0000 — sdio (unused, disabled in root dts)
-    // 0xed, // mmc@fe2e0000 — eMMC moved to zone2 (android storage passthrough)
-    0xf1, // crypto@fe370000
-    0x1b0, // rng@fe378000
-    0xd4, // i2s@fe470000
-    0xd5, // i2s@fe480000
-    0xd6, // i2s@fe490000
-    0xd7, // i2s@fe4a0000
-    0xea, // vad@fe4d0000
-    0xe1, // spdif-tx@fe4e0000
-    0xe2, // spdif-tx@fe4f0000
-    0x29, // interrupt-controller@fe600000
-    0x76, // dma-controller@fea10000
-    0x77, // dma-controller@fea10000
-    0x78, // dma-controller@fea30000
-    0x79, // dma-controller@fea30000
-    0x175, // can@fea50000
-    0x176, // can@fea60000
-    0x177, // can@fea70000
-    0x75, // decompress@fea80000
-    0x15e, // i2c@fea90000
-    0x15f, // i2c@feaa0000
-    0x160, // i2c@feab0000
-    0x161, // i2c@feac0000
-    0x162, // i2c@fead0000
-    0x141, // timer@feae0000
-    0x15b, // watchdog@feaf0000
-    0x166, // spi@feb00000
-    0x167, // spi@feb10000
-    0x168, // spi@feb20000
-    0x169, // spi@feb30000
-    0x16c, // serial@feb40000
-    0x16d, // serial@feb50000
-    0x16e, // serial@feb60000
-    0x16f, // serial@feb70000
-    0x170, // serial@feb80000
-    0x171, // serial@feb90000
-    0x172, // serial@feba0000
-    0x173, // serial@febb0000
-    0x174, // serial@febc0000
-    0x17a, // pwm@febd0000
-    0x17a, // pwm@febd0010
-    0x17a, // pwm@febd0020
-    0x17a, // pwm@febd0030
-    0x17b, // pwm@febd0030
-    0x17c, // pwm@febe0000
-    0x17c, // pwm@febe0010
-    0x17c, // pwm@febe0020
-    0x17c, // pwm@febe0030
-    0x17d, // pwm@febe0030
-    0x17e, // pwm@febf0000
-    0x17e, // pwm@febf0010
-    0x17e, // pwm@febf0020
-    0x17e, // pwm@febf0030
-    0x17f, // pwm@febf0030
+    0x76, 0x77, 0x78, 0x79, // dma-controller@fea10000/fea30000
+    0x7a, 0x7b, // dma-controller@fed10000
+    0xeb, // sdmmc@fe2c0000 (root SD rootfs)
+    0x109, 0x10a, // ethernet@fe1c0000 (gmac1, root network)
+    0x135, // gpio@fd8a0000 (gpio0: SD vmmc enable, rk806 int etc.)
+    0x136, // gpio@fec20000 (gpio1)
+    // 0x137, // gpio2 -> zone2 (android panel reset/enable)
+    0x138, // gpio@fec40000 (gpio3)
+    0x139, // gpio@fec50000 (gpio4)
+    0x141, // timer@feae0000 (rktimer)
+    0x15d, // i2c@fd880000 (i2c0: rk860/pmic aux)
+    0x163, // i2c@fec80000 (i2c6: rtc hym8563)
+    0x168, // spi@feb20000 (spi2: rk806 PMIC)
+    0x16d, // serial@feb50000 (uart2: root console ttyS2)
     0x1ad, // tsadc@fec00000
     0x1ae, // saradc@fec10000
-    0x5d, // mailbox@fec60000
-    0x5e, // mailbox@fec60000
-    0x5f, // mailbox@fec60000
-    0x60, // mailbox@fec60000
-    0x65, // mailbox@fec70000
-    0x66, // mailbox@fec70000
-    0x67, // mailbox@fec70000
-    0x68, // mailbox@fec70000
-    0x163, // i2c@fec80000
-    0x164, // i2c@fec90000
-    0x165, // i2c@feca0000
-    0x16a, // spi@fecb0000
-    0x6d, // mailbox@fece0000
-    0x6e, // mailbox@fece0000
-    0x6f, // mailbox@fece0000
-    0x70, // mailbox@fece0000
-    0x7a, // dma-controller@fed10000
-    0x7b, // dma-controller@fed10000
-    0x135, // gpio@fd8a0000 — gpio0 (PMIC rk806 / i2c0, must stay with root)
-    0x136, // gpio@fec20000 — gpio1 (stays with root)
-    // 0x137, // gpio@fec30000 — gpio2 moved to zone2 (android panel: lcd
-    //          reset GPIO2_B4 + vcc3v3_lcd0_n enable GPIO2_C5)
-    0x138, // gpio@fec40000 — gpio3 (stays with root)
-    0x139, // gpio@fec50000 — gpio4 (stays with root)
-    0xfd, // usb@fc400000
-    0x1aa, // usb2-phy@4000
-    0xb7, // mipi4-csi2@fdd50000
-    0xb8, // mipi4-csi2@fdd50000
-    0xb9, // mipi5-csi2@fdd60000
-    0xba, // mipi5-csi2@fdd60000
-    0xe6, // spdif-tx@fddb8000
-    0xdc, // i2s@fddc8000
-    0xe5, // spdif-tx@fdde8000
-    0xda, // i2s@fddf4000
-    0xdb, // i2s@fddf8000
-    0xde, // i2s@fde00000
-    0xe8, // spdif-rx@fde10000
-    0xe9, // spdif-rx@fde18000
-    0xc2, // dp@fde60000
-    // (see hdmi0 note above)
-    0xc4, // edp@fded0000
-    0xd1, // hdmirx-controller@fdee0000
-    0x1d4, // hdmirx-controller@fdee0000
-    0xd3, // hdmirx-controller@fdee0000
-    0x127, // pcie@fe150000
-    0x126, // pcie@fe150000
-    0x125, // pcie@fe150000
-    0x124, // pcie@fe150000
-    0x123, // pcie@fe150000
-    0x124, // legacy-interrupt-controller
-    0x122, // pcie@fe160000
-    0x121, // pcie@fe160000
-    0x120, // pcie@fe160000
-    0x11f, // pcie@fe160000
-    0x11e, // pcie@fe160000
-    0x11f, // legacy-interrupt-controller
-    0x113, // pcie@fe170000
-    0x112, // pcie@fe170000
-    0x111, // pcie@fe170000
-    0x110, // pcie@fe170000
-    0x10f, // pcie@fe170000
-    0x110, // legacy-interrupt-controller
-    0x103, // ethernet@fe1b0000
-    0x102, // ethernet@fe1b0000
-    0x132, // sata@fe220000
-    // 0x1c7, // fiq-debugger — removed: root-linux console moves to plain
-    //          uart2 (serial@feb50000, irq 0x16d above); fiq node disabled in root dts
-    0x40, // hvisor_virtio_device
+    0x1b0, // rng@fe378000
+    // usb (kept for root; zone1/zone2 have no usb)
+    0xfc, 0xfd, 0xfe, // usb@fc000000 dwc3 / usb@fc400000 dwc3 / xhci fcd00000
+    0xf7, 0xf8, 0xfa, 0xfb, // ehci/ohci fc800000/fc840000/fc880000/fc8c0000
+    0x18f, 0x191, 0x193, 0x196, // iommu@fc900000 (usb)
+    0x19b, 0x19d, 0x19f, 0x1a2, // iommu@fcb00000 (usb)
+    0x1a7, 0x1a8, 0x1a9, 0x1aa, // usb2-phy
+    // Everything else (camera/mpp/audio/pcie/sata/touch/extra uart/i2c/spi/
+    // mailbox/display chains) is disabled in zone0.dts &{...} overrides or
+    // passed through to zone1/zone2 - see image/dts/zone0.dts.
 ]);
-
 pub const ROOT_ARCH_ZONE_CONFIG: HvArchZoneConfig = HvArchZoneConfig {
     is_aarch32: 0,
     uefi_config: UefiConfig::NoUefi,
