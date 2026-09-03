@@ -7433,8 +7433,8 @@
 		reg-io-width = <0x04>;
 		dmas = <0x7a 0x0a 0x7a 0x0b>;
 		pinctrl-names = "default";
-		pinctrl-0 = <0x177>;
-		status = "disabled";
+		pinctrl-0 = <0x209>; /* uart2m0, same pins as previous fiq console */
+		status = "okay"; /* root console uart2 (8250) */
 		phandle = <0x2f7>;
 	};
 
@@ -14186,5 +14186,533 @@
 };
 
 &{/phy@fedb0000} {
+	status = "disabled";
+};
+
+&{/csi2-dphy0} {
+	status = "disabled";
+};
+
+&{/csi2-dphy1} {
+	status = "disabled";
+};
+
+&{/jpege-ccu} {
+	status = "disabled";
+};
+
+&{/mipi2-csi2} {
+	status = "disabled";
+};
+
+&{/mpp-srv} {
+	status = "disabled";
+};
+
+&{/rkcif-dvp} {
+	status = "disabled";
+};
+
+&{/rkcif-dvp-sditf} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds-sditf} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds-sditf-vir1} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds-sditf-vir2} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds-sditf-vir3} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds1} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds1-sditf} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds1-sditf-vir1} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds1-sditf-vir2} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds1-sditf-vir3} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds2} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds2-sditf} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds2-sditf-vir1} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds2-sditf-vir2} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds2-sditf-vir3} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds3} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds3-sditf} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds3-sditf-vir1} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds3-sditf-vir2} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds3-sditf-vir3} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds4} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds4-sditf} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds4-sditf-vir1} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds4-sditf-vir2} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds4-sditf-vir3} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds5} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds5-sditf} {
+	status = "disabled";
+};
+
+&{/rkcif-mipi-lvds5-sditf-vir1} {
+	status = "disabled";
+};
+
+&{/rkisp0-vir0} {
+	status = "disabled";
+};
+
+&{/rkisp0-vir1} {
+	status = "disabled";
+};
+
+&{/rkisp0-vir2} {
+	status = "disabled";
+};
+
+&{/rkisp0-vir3} {
+	status = "disabled";
+};
+
+&{/rkisp1-vir0} {
+	status = "disabled";
+};
+
+&{/rkisp1-vir1} {
+	status = "disabled";
+};
+
+&{/rkisp1-vir2} {
+	status = "disabled";
+};
+
+&{/rkisp1-vir3} {
+	status = "disabled";
+};
+
+&{/rkispp0-vir0} {
+	status = "disabled";
+};
+
+&{/rkispp1-vir0} {
+	status = "disabled";
+};
+
+&{/rkvenc-ccu} {
+	status = "disabled";
+};
+
+&{/pwm@fd8b0030} {
+	status = "disabled";
+};
+
+&{/vepu@fdb50000} {
+	status = "disabled";
+};
+
+&{/vdpu@fdb50400} {
+	status = "disabled";
+};
+
+&{/avsd-plus@fdb51000} {
+	status = "disabled";
+};
+
+&{/rga@fdb60000} {
+	status = "disabled";
+};
+
+&{/rga@fdb70000} {
+	status = "disabled";
+};
+
+&{/rga@fdb80000} {
+	status = "disabled";
+};
+
+&{/jpegd@fdb90000} {
+	status = "disabled";
+};
+
+&{/jpege-core@fdba0000} {
+	status = "disabled";
+};
+
+&{/jpege-core@fdba4000} {
+	status = "disabled";
+};
+
+&{/jpege-core@fdba8000} {
+	status = "disabled";
+};
+
+&{/jpege-core@fdbac000} {
+	status = "disabled";
+};
+
+&{/iep@fdbb0000} {
+	status = "disabled";
+};
+
+&{/rkvenc-core@fdbd0000} {
+	status = "disabled";
+};
+
+&{/rkvenc-core@fdbe0000} {
+	status = "disabled";
+};
+
+&{/rkvdec-ccu@fdc30000} {
+	status = "disabled";
+};
+
+&{/rkvdec-core@fdc38000} {
+	status = "disabled";
+};
+
+&{/rkvdec-core@fdc48000} {
+	status = "disabled";
+};
+
+&{/av1d@fdc70000} {
+	status = "disabled";
+};
+
+&{/rkisp-unite@fdcb0000} {
+	status = "disabled";
+};
+
+&{/rkisp@fdcb0000} {
+	status = "disabled";
+};
+
+&{/rkisp-unite-mmu@fdcb7f00} {
+	status = "disabled";
+};
+
+&{/rkisp@fdcc0000} {
+	status = "disabled";
+};
+
+&{/rkispp@fdcd0000} {
+	status = "disabled";
+};
+
+&{/rkispp@fdcd8000} {
+	status = "disabled";
+};
+
+&{/rkcif@fdce0000} {
+	status = "disabled";
+};
+
+&{/mipi0-csi2-hw@fdd10000} {
+	status = "disabled";
+};
+
+&{/mipi1-csi2-hw@fdd20000} {
+	status = "disabled";
+};
+
+&{/mipi2-csi2-hw@fdd30000} {
+	status = "disabled";
+};
+
+&{/mipi3-csi2-hw@fdd40000} {
+	status = "disabled";
+};
+
+&{/mipi4-csi2-hw@fdd50000} {
+	status = "disabled";
+};
+
+&{/mipi5-csi2-hw@fdd60000} {
+	status = "disabled";
+};
+
+&{/spdif-tx@fddb0000} {
+	status = "disabled";
+};
+
+&{/i2s@fddc0000} {
+	status = "disabled";
+};
+
+&{/spdif-tx@fdde0000} {
+	status = "disabled";
+};
+
+&{/i2s@fddf0000} {
+	status = "disabled";
+};
+
+&{/i2s@fddfc000} {
+	status = "disabled";
+};
+
+&{/spdif-rx@fde08000} {
+	status = "disabled";
+};
+
+&{/edp@fdec0000} {
+	status = "disabled";
+};
+
+&{/pcie@fe180000} {
+	status = "disabled";
+};
+
+&{/pcie@fe190000} {
+	status = "disabled";
+};
+
+&{/sata@fe210000} {
+	status = "disabled";
+};
+
+&{/sata@fe230000} {
+	status = "disabled";
+};
+
+&{/crypto@fe370000} {
+	status = "disabled";
+};
+
+&{/i2s@fe470000} {
+	status = "disabled";
+};
+
+&{/i2s@fe480000} {
+	status = "disabled";
+};
+
+&{/i2s@fe490000} {
+	status = "disabled";
+};
+
+&{/i2s@fe4a0000} {
+	status = "disabled";
+};
+
+&{/spdif-tx@fe4e0000} {
+	status = "disabled";
+};
+
+&{/spdif-tx@fe4f0000} {
+	status = "disabled";
+};
+
+&{/can@fea50000} {
+	status = "disabled";
+};
+
+&{/can@fea60000} {
+	status = "disabled";
+};
+
+&{/can@fea70000} {
+	status = "disabled";
+};
+
+&{/i2c@fea90000} {
+	status = "disabled";
+};
+
+&{/i2c@feaa0000} {
+	status = "disabled";
+};
+
+&{/i2c@feab0000} {
+	status = "disabled";
+};
+
+&{/i2c@feac0000} {
+	status = "disabled";
+};
+
+&{/i2c@fead0000} {
+	status = "disabled";
+};
+
+&{/watchdog@feaf0000} {
+	status = "disabled";
+};
+
+&{/serial@febc0000} {
+	status = "disabled";
+};
+
+&{/mailbox@fec60000} {
+	status = "disabled";
+};
+
+&{/mailbox@fec70000} {
+	status = "disabled";
+};
+
+&{/i2c@fec90000} {
+	status = "disabled";
+};
+
+&{/mailbox@fece0000} {
+	status = "disabled";
+};
+
+&{/csi2-dphy0-hw@fedc0000} {
+	status = "disabled";
+};
+
+&{/csi2-dphy1-hw@fedc8000} {
+	status = "disabled";
+};
+
+&{/spdif-tx@fddb8000} {
+	status = "disabled";
+};
+
+&{/i2s@fddc8000} {
+	status = "disabled";
+};
+
+&{/spdif-tx@fdde8000} {
+	status = "disabled";
+};
+
+&{/i2s@fddf4000} {
+	status = "disabled";
+};
+
+&{/i2s@fddf8000} {
+	status = "disabled";
+};
+
+&{/i2s@fde00000} {
+	status = "disabled";
+};
+
+&{/spdif-rx@fde10000} {
+	status = "disabled";
+};
+
+&{/spdif-rx@fde18000} {
+	status = "disabled";
+};
+
+&{/edp@fded0000} {
+	status = "disabled";
+};
+
+&{/hdmirx-controller@fdee0000} {
+	status = "disabled";
+};
+
+&{/pcie@fe150000} {
+	status = "disabled";
+};
+
+&{/pcie@fe160000} {
+	status = "disabled";
+};
+
+&{/pcie@fe170000} {
+	status = "disabled";
+};
+
+&{/sata@fe220000} {
+	status = "disabled";
+};
+
+&{/spdif-tx0-dc} {
+	status = "disabled";
+};
+
+&{/spdif-tx0-sound} {
+	status = "disabled";
+};
+
+&{/spdif-tx1-dc} {
+	status = "disabled";
+};
+
+&{/spdif-tx1-sound} {
+	status = "disabled";
+};
+
+&{/pwm-fan} {
+	status = "disabled";
+};
+
+&{/hdmiin-sound} {
 	status = "disabled";
 };
