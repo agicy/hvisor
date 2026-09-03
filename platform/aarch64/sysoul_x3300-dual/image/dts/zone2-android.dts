@@ -2257,7 +2257,6 @@
 	syscon@fd5a8000 {
 		compatible = "rockchip,rk3588-vo-grf\0syscon";
 		reg = <0x00 0xfd5a8000 0x00 0x100>;
-		clocks = <0x5a>;
 		phandle = <0xbd>;
 	};
 
