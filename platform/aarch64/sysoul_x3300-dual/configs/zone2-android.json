@@ -29,7 +29,7 @@
       "type": "io",
       "physical_start": "0xfd104000",
       "virtual_start": "0xfd104000",
-      "size": "0x2000"
+      "size": "0x4000"
     },
     {
       "type": "io",
@@ -216,6 +216,60 @@
       "physical_start": "0xfee20000",
       "virtual_start": "0xfee20000",
       "size": "0x10000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd124000",
+      "virtual_start": "0xfd124000",
+      "size": "0x4000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd10c000",
+      "virtual_start": "0xfd10c000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd10d000",
+      "virtual_start": "0xfd10d000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd10e000",
+      "virtual_start": "0xfd10e000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd10f000",
+      "virtual_start": "0xfd10f000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd12c000",
+      "virtual_start": "0xfd12c000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd12d000",
+      "virtual_start": "0xfd12d000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd12e000",
+      "virtual_start": "0xfd12e000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd12f000",
+      "virtual_start": "0xfd12f000",
+      "size": "0x1000"
     }
   ],
   "interrupts": [
