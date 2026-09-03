@@ -12716,7 +12716,7 @@
 	};
 
 	chosen {
-		bootargs = "root=PARTLABEL=rootfs rootfstype=ext4 ro rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyS2,115200 overlayroot=device:dev=PARTLABEL=userdata,fstype=ext4,mkfs=1 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 rockchip_pm_domains.always_on=1";
+		bootargs = "root=PARTLABEL=rootfs rootfstype=ext4 rw rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyS2,115200 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 rockchip_pm_domains.always_on=1";
 		phandle = <0x4c8>;
 	};
 
@@ -14166,5 +14166,25 @@
 };
 
 &{/dmc} {
+	status = "disabled";
+};
+
+&{/dsi@fde20000} {
+	status = "disabled";
+};
+
+&{/dp@fde50000} {
+	status = "disabled";
+};
+
+&{/dp@fde60000} {
+	status = "disabled";
+};
+
+&{/phy@feda0000} {
+	status = "disabled";
+};
+
+&{/phy@fedb0000} {
 	status = "disabled";
 };
