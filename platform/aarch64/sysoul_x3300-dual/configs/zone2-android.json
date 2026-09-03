@@ -51,12 +51,6 @@
     },
     {
       "type": "io",
-      "physical_start": "0xfd5b4000",
-      "virtual_start": "0xfd5b4000",
-      "size": "0x2000"
-    },
-    {
-      "type": "io",
       "physical_start": "0xfd5f0000",
       "virtual_start": "0xfd5f0000",
       "size": "0x10000"
@@ -78,6 +72,12 @@
       "physical_start": "0xfde20000",
       "virtual_start": "0xfde20000",
       "size": "0x10000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd5e8000",
+      "virtual_start": "0xfd5e8000",
+      "size": "0x4000"
     },
     {
       "type": "io",
