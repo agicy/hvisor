@@ -138,6 +138,84 @@
       "physical_start": "0xffa50000",
       "virtual_start": "0xffa50000",
       "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfc000000",
+      "virtual_start": "0xfc000000",
+      "size": "0x400000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfc800000",
+      "virtual_start": "0xfc800000",
+      "size": "0x40000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfc840000",
+      "virtual_start": "0xfc840000",
+      "size": "0x40000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfc880000",
+      "virtual_start": "0xfc880000",
+      "size": "0x40000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfc8c0000",
+      "virtual_start": "0xfc8c0000",
+      "size": "0x40000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfcd00000",
+      "virtual_start": "0xfcd00000",
+      "size": "0x400000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd5ac000",
+      "virtual_start": "0xfd5ac000",
+      "size": "0x4000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd5b0000",
+      "virtual_start": "0xfd5b0000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd5c4000",
+      "virtual_start": "0xfd5c4000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd5d0000",
+      "virtual_start": "0xfd5d0000",
+      "size": "0x4000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd5d8000",
+      "virtual_start": "0xfd5d8000",
+      "size": "0x4000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfd5dc000",
+      "virtual_start": "0xfd5dc000",
+      "size": "0x4000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfee20000",
+      "virtual_start": "0xfee20000",
+      "size": "0x10000"
     }
   ],
   "interrupts": [
@@ -151,7 +229,16 @@
     "0xc7",
     "0xed",
     "0x137",
-    "0x178"
+    "0x178",
+    "0xfc",
+    "0xf7",
+    "0xf8",
+    "0xfa",
+    "0xfb",
+    "0xfe",
+    "0x1a7",
+    "0x1a8",
+    "0x1a9"
   ],
   "devices": [
     {
@@ -190,7 +277,23 @@
         43,
         44,
         45,
-        46
+        46,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
       ],
       "reset_ids": [
         6,
@@ -208,11 +311,22 @@
         36,
         37,
         38,
-        39
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
       ],
       "power_ids": [
         3,
-        4
+        4,
+        6
       ]
     },
     {

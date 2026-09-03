@@ -14000,7 +14000,8 @@
 		interrupts = <0x00 0x20 0x01>;
 		power-domains = <0x06 0x09>, <0x06 0x0a>, <0x06 0x0b>,
 				<0x06 0x0c>,
-				<0x06 0x18>, <0x06 0x1a>;
+				<0x06 0x18>, <0x06 0x1a>,
+				<0x06 0x1f>;  /* 6 usb pd */
 		clocks = <0x0f 0x06>, <0x02 0x12d>, <0x02 0x122>, <0x02 0x124>,
 			 <0x02 0x12e>, <0x02 0x123>, <0x02 0x125>, <0x02 0x131>,
 			 <0x0f 0x05>, <0x02 0x115>, <0x02 0x116>, <0x02 0x114>,
@@ -14043,7 +14044,23 @@
 			 <0x02 0x278>,  /* 47 dsi0: pclk */
 			 <0x02 0x27a>,  /* 48 dsi0: sys_clk */
 			 <0x02 0x108>,  /* 49 dcphy0: pclk */
-			 <0x02 0x2b6>;  /* 50 dcphy0: ref */
+			 <0x02 0x2b6>,  /* 50 dcphy0: ref */
+			 <0x02 0x1a3>,  /* 51 usb_otg_ref */
+			 <0x02 0x1a2>,  /* 52 usb_otg_suspend */
+			 <0x02 0x1a1>,  /* 53 usb_otg_bus */
+			 <0x02 0x19d>,  /* 54 usbhost0_clk */
+			 <0x02 0x19e>,  /* 55 usbhost0_arbiter */
+			 <0x02 0x19f>,  /* 56 usbhost1_clk */
+			 <0x02 0x1a0>,  /* 57 usbhost1_arbiter */
+			 <0x02 0x2b5>,  /* 58 usb2phy_ref */
+			 <0x02 0x179>,  /* 59 usb3_ref */
+			 <0x02 0x178>,  /* 60 usb3_suspend */
+			 <0x02 0x177>,  /* 61 usb3_bus */
+			 <0x02 0x17a>,  /* 62 usb3_utmi */
+			 <0x02 0x166>,  /* 63 usb3_php */
+			 <0x02 0x181>,  /* 64 usb3_pipe */
+			 <0x02 0x2bf>,  /* 65 combphy2_ref */
+			 <0x02 0x187>;  /* 66 combphy2_apb */
 		clock-names = "clk_npu", "aclk0", "aclk1", "aclk2",
 			      "hclk0", "hclk1", "hclk2", "pclk",
 			      "clk_gpu", "clk_gpu_coregroup",
@@ -14068,7 +14085,15 @@
 			      "gpio2_clk0", "gpio2_clk1",
 			      "lcd_pwm", "lcd_pwm_pclk",
 			      "dsi0_pclk", "dsi0_sys_clk",
-			      "dcphy0_pclk", "dcphy0_ref";
+			      "dcphy0_pclk", "dcphy0_ref",
+			      "usb_otg_ref", "usb_otg_suspend",
+			      "usb_otg_bus", "usbhost0_clk",
+			      "usbhost0_arbiter", "usbhost1_clk",
+			      "usbhost1_arbiter", "usb2phy_ref",
+			      "usb3_ref", "usb3_suspend",
+			      "usb3_bus", "usb3_utmi",
+			      "usb3_php", "usb3_pipe",
+			      "combphy2_ref", "combphy2_apb";
 		resets = <0x02 0x1e6>, <0x02 0x1b0>, <0x02 0x1c0>,
 			 <0x02 0x1e8>, <0x02 0x1b2>, <0x02 0x1c2>,
 			 <0x02 0x349>,  /* VOP: axi */
@@ -14097,7 +14122,17 @@
 			 <0x02 0xc0043>, /* 36 dcphy0: m_phy */
 			 <0x02 0x3e>,   /* 37 dcphy0: apb */
 			 <0x02 0x3f>,   /* 38 dcphy0: grf */
-			 <0x02 0xc0044>; /* 39 dcphy0: s_phy */
+			 <0x02 0xc0044>,  /* 39 dcphy0: s_phy */
+			 <0x02 0x2a4>,  /* 40 usb_otg_rst */
+			 <0x02 0x237>,  /* 41 usb3_host_rst */
+			 <0x02 0xc0047>,  /* 42 usb2phy0_phy */
+			 <0x02 0x488>,  /* 43 usb2phy0_apb */
+			 <0x02 0xc0049>,  /* 44 usb2phy1_phy */
+			 <0x02 0x48a>,  /* 45 usb2phy1_apb */
+			 <0x02 0xc004a>,  /* 46 usb2phy2_phy */
+			 <0x02 0x48b>,  /* 47 usb2phy2_apb */
+			 <0x02 0x20007>,  /* 48 combphy2_phy */
+			 <0x02 0x4d8>;  /* 49 combphy2_apb */
 		reset-names = "srst_a0", "srst_a1", "srst_a2",
 			      "srst_h0", "srst_h1", "srst_h2",
 			      "vop_axi", "vop_ahb", "vop_dclk0",
@@ -14116,7 +14151,12 @@
 			      "emmc_block", "emmc_timer",
 			      "dsi0_apb",
 			      "dcphy0_m_phy", "dcphy0_apb",
-			      "dcphy0_grf", "dcphy0_s_phy";
+			      "dcphy0_grf", "dcphy0_s_phy",
+			      "usb_otg_rst", "usb3_host_rst",
+			      "usb2phy0_phy", "usb2phy0_apb",
+			      "usb2phy1_phy", "usb2phy1_apb",
+			      "usb2phy2_phy", "usb2phy2_apb",
+			      "combphy2_phy", "combphy2_apb";
 	};
 
 	// reserve memory for hvisor and GuestOS
@@ -14714,5 +14754,53 @@
 };
 
 &{/hdmiin-sound} {
+	status = "disabled";
+};
+
+&{/usbdrd3_0} {
+	status = "disabled";
+};
+
+&{/usb@fc800000} {
+	status = "disabled";
+};
+
+&{/usb@fc840000} {
+	status = "disabled";
+};
+
+&{/usb@fc880000} {
+	status = "disabled";
+};
+
+&{/usb@fc8c0000} {
+	status = "disabled";
+};
+
+&{/usbhost3_0} {
+	status = "disabled";
+};
+
+&{/syscon@fd5d0000/usb2-phy@0} {
+	status = "disabled";
+};
+
+&{/syscon@fd5d8000/usb2-phy@8000} {
+	status = "disabled";
+};
+
+&{/syscon@fd5dc000/usb2-phy@c000} {
+	status = "disabled";
+};
+
+&{/phy@fee20000} {
+	status = "disabled";
+};
+
+&{/iommu@fc900000} {
+	status = "disabled";
+};
+
+&{/iommu@fcb00000} {
 	status = "disabled";
 };

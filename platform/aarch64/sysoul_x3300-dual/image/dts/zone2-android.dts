@@ -2007,19 +2007,19 @@
 
 	usbdrd3_0 {
 		compatible = "rockchip,rk3588-dwc3\0rockchip,rk3399-dwc3";
-		clocks = <0x02 0x1a3 0x02 0x1a2 0x02 0x1a1>;
+		clocks = <0x2001 30 0x2001 31 0x2001 32>;
 		clock-names = "ref\0suspend\0bus";
 		#address-cells = <0x02>;
 		#size-cells = <0x02>;
 		ranges;
-		status = "disabled" /* not exposed to zone2 */;
+		status = "okay";
 
 		usb@fc000000 {
 			compatible = "snps,dwc3";
 			reg = <0x00 0xfc000000 0x00 0x400000>;
 			interrupts = <0x00 0xdc 0x04>;
-			power-domains = <0x49 0x1f>;
-			resets = <0x02 0x2a4>;
+			power-domains = <0x2003 2>;
+			resets = <0x2002 16>;
 			reset-names = "usb3-otg";
 			dr_mode = "peripheral";
 			phys = <0x4f 0x50>;
@@ -2043,25 +2043,25 @@
 		compatible = "rockchip,rk3588-ehci\0generic-ehci";
 		reg = <0x00 0xfc800000 0x00 0x40000>;
 		interrupts = <0x00 0xd7 0x04>;
-		clocks = <0x02 0x19d 0x02 0x19e 0x51>;
+		clocks = <0x2001 33 0x2001 34 0x51>;
 		clock-names = "usbhost\0arbiter\0utmi";
 		companion = <0x52>;
 		phys = <0x53>;
 		phy-names = "usb2-phy";
-		power-domains = <0x49 0x1f>;
-		status = "disabled" /* not exposed to zone2 */;
+		power-domains = <0x2003 2>;
+		status = "okay";
 	};
 
 	usb@fc840000 {
 		compatible = "generic-ohci";
 		reg = <0x00 0xfc840000 0x00 0x40000>;
 		interrupts = <0x00 0xd8 0x04>;
-		clocks = <0x02 0x19d 0x02 0x19e 0x51>;
+		clocks = <0x2001 33 0x2001 34 0x51>;
 		clock-names = "usbhost\0arbiter\0utmi";
 		phys = <0x53>;
 		phy-names = "usb2-phy";
-		power-domains = <0x49 0x1f>;
-		status = "disabled" /* not exposed to zone2 */;
+		power-domains = <0x2003 2>;
+		status = "okay";
 		phandle = <0x52>;
 	};
 
@@ -2069,25 +2069,25 @@
 		compatible = "rockchip,rk3588-ehci\0generic-ehci";
 		reg = <0x00 0xfc880000 0x00 0x40000>;
 		interrupts = <0x00 0xda 0x04>;
-		clocks = <0x02 0x19f 0x02 0x1a0 0x54>;
+		clocks = <0x2001 35 0x2001 36 0x54>;
 		clock-names = "usbhost\0arbiter\0utmi";
 		companion = <0x55>;
 		phys = <0x56>;
 		phy-names = "usb2-phy";
-		power-domains = <0x49 0x1f>;
-		status = "disabled" /* not exposed to zone2 */;
+		power-domains = <0x2003 2>;
+		status = "okay";
 	};
 
 	usb@fc8c0000 {
 		compatible = "generic-ohci";
 		reg = <0x00 0xfc8c0000 0x00 0x40000>;
 		interrupts = <0x00 0xdb 0x04>;
-		clocks = <0x02 0x19f 0x02 0x1a0 0x54>;
+		clocks = <0x2001 35 0x2001 36 0x54>;
 		clock-names = "usbhost\0arbiter\0utmi";
 		phys = <0x56>;
 		phy-names = "usb2-phy";
-		power-domains = <0x49 0x1f>;
-		status = "disabled" /* not exposed to zone2 */;
+		power-domains = <0x2003 2>;
+		status = "okay";
 		phandle = <0x55>;
 	};
 
@@ -2111,18 +2111,18 @@
 
 	usbhost3_0 {
 		compatible = "rockchip,rk3588-dwc3\0rockchip,rk3399-dwc3";
-		clocks = <0x02 0x179 0x02 0x178 0x02 0x177 0x02 0x17a 0x02 0x166 0x02 0x181>;
+		clocks = <0x2001 38 0x2001 39 0x2001 40 0x2001 41 0x2001 42 0x2001 43>;
 		clock-names = "ref\0suspend\0bus\0utmi\0php\0pipe";
 		#address-cells = <0x02>;
 		#size-cells = <0x02>;
 		ranges;
-		status = "disabled" /* not exposed to zone2 */;
+		status = "okay";
 
 		usb@fcd00000 {
 			compatible = "snps,dwc3";
 			reg = <0x00 0xfcd00000 0x00 0x400000>;
 			interrupts = <0x00 0xde 0x04>;
-			resets = <0x02 0x237>;
+			resets = <0x2002 17>;
 			reset-names = "usb3-host";
 			dr_mode = "host";
 			phys = <0x57 0x04>;
@@ -2320,14 +2320,14 @@
 			compatible = "rockchip,rk3588-usb2phy";
 			reg = <0x00 0x10>;
 			interrupts = <0x00 0x189 0x04>;
-			resets = <0x02 0xc0047 0x02 0x488>;
+			resets = <0x2002 18 0x2002 19>;
 			reset-names = "phy\0apb";
-			clocks = <0x02 0x2b5>;
+			clocks = <0x2001 37>;
 			clock-names = "phyclk";
 			clock-output-names = "usb480m_phy0";
 			#clock-cells = <0x00>;
 			rockchip,usbctrl-grf = <0x5b>;
-			status = "disabled" /* not exposed to zone2 */;
+			status = "okay";
 			phandle = <0x174>;
 
 			otg-port {
@@ -2348,13 +2348,13 @@
 			compatible = "rockchip,rk3588-usb2phy";
 			reg = <0x8000 0x10>;
 			interrupts = <0x00 0x187 0x04>;
-			resets = <0x02 0xc0049 0x02 0x48a>;
+			resets = <0x2002 20 0x2002 21>;
 			reset-names = "phy\0apb";
-			clocks = <0x02 0x2b5>;
+			clocks = <0x2001 37>;
 			clock-names = "phyclk";
 			clock-output-names = "usb480m_phy2";
 			#clock-cells = <0x00>;
-			status = "disabled" /* not exposed to zone2 */;
+			status = "okay";
 			phandle = <0x51>;
 
 			host-port {
@@ -2375,13 +2375,13 @@
 			compatible = "rockchip,rk3588-usb2phy";
 			reg = <0xc000 0x10>;
 			interrupts = <0x00 0x188 0x04>;
-			resets = <0x02 0xc004a 0x02 0x48b>;
+			resets = <0x2002 22 0x2002 23>;
 			reset-names = "phy\0apb";
-			clocks = <0x02 0x2b5>;
+			clocks = <0x2001 37>;
 			clock-names = "phyclk";
 			clock-output-names = "usb480m_phy3";
 			#clock-cells = <0x00>;
-			status = "disabled" /* not exposed to zone2 */;
+			status = "okay";
 			phandle = <0x54>;
 
 			host-port {
@@ -6714,16 +6714,16 @@
 		compatible = "rockchip,rk3588-naneng-combphy";
 		reg = <0x00 0xfee20000 0x00 0x100>;
 		#phy-cells = <0x01>;
-		clocks = <0x02 0x2bf 0x02 0x187 0x02 0x166>;
+		clocks = <0x2001 44 0x2001 45 0x2001 42>;
 		clock-names = "refclk\0apbclk\0phpclk";
-		assigned-clocks = <0x02 0x2bf>;
+		assigned-clocks = <0x2001 44>;
 		assigned-clock-rates = <0x5f5e100>;
-		resets = <0x02 0x20007 0x02 0x4d8>;
+		resets = <0x2002 24 0x2002 25>;
 		reset-names = "combphy-apb\0combphy";
 		rockchip,pipe-grf = <0x5d>;
 		rockchip,pipe-phy-grf = <0x17a>;
 		rockchip,pcie1ln-sel-bits = <0x100 0x01 0x01 0x00>;
-		status = "disabled" /* not exposed to zone2 */;
+		status = "okay";
 		phandle = <0x57>;
 	};
 

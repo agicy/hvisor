@@ -242,12 +242,11 @@ pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[
     0x1c7, // fiq-debugger (uart2 console ttyFIQ0, irq-mode)
     0x1ae, // saradc@fec10000
     0x1b0, // rng@fe378000
-    // usb (kept for root; zone1/zone2 have no usb)
-    0xfc, 0xfd, 0xfe, // usb@fc000000 dwc3 / usb@fc400000 dwc3 / xhci fcd00000
-    0xf7, 0xf8, 0xfa, 0xfb, // ehci/ohci fc800000/fc840000/fc880000/fc8c0000
-    0x18f, 0x191, 0x193, 0x196, // iommu@fc900000 (usb)
-    0x19b, 0x19d, 0x19f, 0x1a2, // iommu@fcb00000 (usb)
-    0x1a7, 0x1a8, 0x1a9, 0x1aa, // usb2-phy
+    // usb: only usbdrd3_1 (usb@fc400000) + its usb2phy stay in root;
+    // usb@fc000000/fcd00000 dwc3, ehci/ohci pairs, usb2phy0-2 and the
+    // usb iommus moved to zone2 (android), see zone2-android.dts/json.
+    0xfd, // usb@fc400000 dwc3 (usbdrd3_1)
+    0x1aa, // usb2phy1 (usb2-phy@4000, root usbdrd3_1 companion)
     // Everything else (camera/mpp/audio/pcie/sata/touch/extra uart/i2c/spi/
     // mailbox/display chains) is disabled in zone0.dts &{...} overrides or
     // passed through to zone1/zone2 - see image/dts/zone0.dts.
