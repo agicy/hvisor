@@ -2510,12 +2510,7 @@
 	};
 
 	pwm@fd8b0010 {
-		pinctrl-names = "active";
-		pinctrl-0 = <0xdc>; /* rockchip pwm probe REQUIRES an "active" state
-				     * (pinctrl_lookup_state) - point it at the safe
-				     * ioc-grf lcd-rst-gpio group (mapped); the real
-				     * backlight pin mux (pmu-grf bank0) was done by
-				     * u-boot and is not touched here */
+
 		compatible = "rockchip,rk3588-pwm\0rockchip,rk3328-pwm";
 		reg = <0x00 0xfd8b0010 0x00 0x10>;
 		interrupts = <0x00 0x158 0x04>;
