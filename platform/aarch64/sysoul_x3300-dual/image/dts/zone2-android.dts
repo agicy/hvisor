@@ -5549,14 +5549,14 @@
 	i2c@feac0000 {
 		compatible = "rockchip,rk3588-i2c", "rockchip,rk3399-i2c";
 		reg = <0x00 0xfeac0000 0x00 0x1000>;
-		clocks = <0x02 0x90 0x02 0x88>;
+		clocks = <&scmi_clk 46 47>;
 		clock-names = "i2c", "pclk";
 		interrupts = <0x00 0x141 0x04>;
 		pinctrl-names = "default";
 		pinctrl-0 = <0x13d>;
 		#address-cells = <0x01>;
 		#size-cells = <0x00>;
-		status = "disabled" /* not exposed to zone2 */;
+		status = "okay";
 
 		gt9xx@14 {
 			compatible = "goodix,gt9xx";

@@ -270,6 +270,18 @@
       "physical_start": "0xfd12f000",
       "virtual_start": "0xfd12f000",
       "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfeac0000",
+      "virtual_start": "0xfeac0000",
+      "size": "0x1000"
+    },
+    {
+      "type": "io",
+      "physical_start": "0xfec20000",
+      "virtual_start": "0xfec20000",
+      "size": "0x1000"
     }
   ],
   "interrupts": [
@@ -292,7 +304,9 @@
     "0xfe",
     "0x1a7",
     "0x1a8",
-    "0x1a9"
+    "0x1a9",
+    "0x161",
+    "0x136"
   ],
   "devices": [
     {
@@ -347,7 +361,9 @@
         63,
         64,
         65,
-        66
+        66,
+        67,
+        68
       ],
       "reset_ids": [
         6,
