@@ -269,7 +269,7 @@
 
 
 
-	// ========== NPU (no IOMMU mode) ==========
+	// ========== NPU (IOMMU mode) ==========
 
 	rknpu: npu@fdab0000 {
 		compatible = "rockchip,rk3588-rknpu";
@@ -305,10 +305,35 @@
 		                <&scmi_pwr 1>,
 		                <&scmi_pwr 2>;
 		power-domain-names = "npu0", "npu1", "npu2";
+		// IOMMU mode: NPU uses system memory through rknpu_mmu (needed for
+		// LLM-sized buffers; no-IOMMU mode is limited to the 64 MiB
+		// npu_reserved carveout below).
+		iommus = <&rknpu_mmu>;
 		// Operating points (via SCMI clock)
 		operating-points-v2 = <&npu_opp_table>;
-		// Reserved memory for DMA (non-IOMMU mode)
+		// Reserved memory kept for legacy no-IOMMU allocations (optional
+		// in IOMMU mode; RKLLM buffers use normal system memory).
 		memory-region = <&npu_reserved>;
+		status = "okay";
+	};
+
+	rknpu_mmu: iommu@fdab9000 {
+		compatible = "rockchip,iommu-v2";
+		reg = <0x00 0xfdab9000 0x00 0x100>,
+		      <0x00 0xfdaba000 0x00 0x100>,
+		      <0x00 0xfdaca000 0x00 0x100>,
+		      <0x00 0xfdada000 0x00 0x100>;
+		interrupts = <0x00 0x6e 0x04>,
+		             <0x00 0x6f 0x04>,
+		             <0x00 0x70 0x04>;
+		interrupt-names = "npu0_mmu", "npu1_mmu", "npu2_mmu";
+		// NPU aclk0-2 / hclk0-2 via SCMI (virtual ids 1-6, same clocks
+		// the npu core uses)
+		clocks = <&scmi_clk 1>, <&scmi_clk 2>, <&scmi_clk 3>,
+		         <&scmi_clk 4>, <&scmi_clk 5>, <&scmi_clk 6>;
+		clock-names = "aclk0", "aclk1", "aclk2",
+		              "iface0", "iface1", "iface2";
+		#iommu-cells = <0>;
 		status = "okay";
 	};
 
