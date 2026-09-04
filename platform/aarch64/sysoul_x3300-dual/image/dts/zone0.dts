@@ -14062,7 +14062,9 @@
 			 <0x02 0x2bf>,  /* 65 combphy2_ref */
 			 <0x02 0x187>,  /* 66 combphy2_apb */
 			 <0x02 0x90>,  /* 67 i2c4_clk */
-			 <0x02 0x88>;  /* 68 i2c4_pclk */
+			 <0x02 0x88>,  /* 68 i2c4_pclk */
+			 <0x02 0x7d>,  /* 69 gpio1_pclk */
+			 <0x02 0x7e>;  /* 70 gpio1_dbclk */
 		clock-names = "clk_npu", "aclk0", "aclk1", "aclk2",
 			      "hclk0", "hclk1", "hclk2", "pclk",
 			      "clk_gpu", "clk_gpu_coregroup",
