@@ -53,7 +53,6 @@
 			d-cache-line-size = <0x40>;
 			d-cache-sets = <0x100>;
 			next-level-cache = <&l2_cache_b0>;
-			phandle = <0x04>;
 		};
 
 		cpu1: cpu@500 {
@@ -70,7 +69,6 @@
 			d-cache-line-size = <0x40>;
 			d-cache-sets = <0x100>;
 			next-level-cache = <&l2_cache_b1>;
-			phandle = <0x05>;
 		};
 
 		idle-states {
@@ -83,7 +81,6 @@
 				entry-latency-us = <0x64>;
 				exit-latency-us = <0x78>;
 				min-residency-us = <0x3e8>;
-				phandle = <0x10>;
 			};
 		};
 
@@ -93,7 +90,6 @@
 			cache-line-size = <0x40>;
 			cache-sets = <0x400>;
 			next-level-cache = <&l3_cache>;
-			phandle = <0x1b>;
 		};
 
 		l2_cache_b1: l2-cache-b1 {
@@ -102,7 +98,6 @@
 			cache-line-size = <0x40>;
 			cache-sets = <0x400>;
 			next-level-cache = <&l3_cache>;
-			phandle = <0x1d>;
 		};
 
 		l3_cache: l3-cache {
@@ -110,7 +105,6 @@
 			cache-size = <0x300000>;
 			cache-line-size = <0x40>;
 			cache-sets = <0x1000>;
-			phandle = <0x1e>;
 		};
 	};
 
@@ -123,7 +117,6 @@
 		compatible = "arm,armv8-pmuv3";
 		interrupts = <0x01 0x07 0x08>;
 		interrupt-affinity = <&cpu0 &cpu1>;
-		phandle = <0x220>;
 	};
 
 	timer {
@@ -140,7 +133,6 @@
 		interrupt-controller;
 		reg = <0x00 0xfe600000 0x00 0x10000 0x00 0xfe680000 0x00 0x100000>;
 		interrupts = <0x01 0x09 0x04>;
-		phandle = <0x01>;
 	};
 
 	aliases {
@@ -152,7 +144,6 @@
 			compatible = "arm,scmi-virtio";
 			#address-cells = <0x01>;
 			#size-cells = <0x00>;
-			phandle = <0x1000>;
 
 			scmi_clk: protocol@14 {   // clock protocol
 				reg = <0x14>;
@@ -211,7 +202,6 @@
 
 	npu_opp_table: npu-opp-table {
 		compatible = "operating-points-v2";
-		phandle = <0x70>;
 
 		opp-300000000 {
 			opp-hz = <0x00 0x11e1a300>;
