@@ -272,6 +272,10 @@
 		opp-900000000 {
 			opp-hz = <0x00 0x35a4e900>;
 		};
+
+		opp-1000000000 {
+			opp-hz = <0x00 0x3b9aca00>;
+		};
 	};
 
 	// ========== GPU OPP Table ==========
@@ -321,6 +325,25 @@
 
 	// ========== NPU (IOMMU mode) ==========
 
+
+	vdd_npu_fixed: vdd-npu-fixed {
+		compatible = "regulator-fixed";
+		regulator-name = "rknpu";
+		regulator-min-microvolt = <800000>;
+		regulator-max-microvolt = <800000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+	vdd_npu_mem_fixed: vdd-npu-mem-fixed {
+		compatible = "regulator-fixed";
+		regulator-name = "mem";
+		regulator-min-microvolt = <800000>;
+		regulator-max-microvolt = <800000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
 	rknpu: npu@fdab0000 {
 		compatible = "rockchip,rk3588-rknpu";
 		reg = <0x00 0xfdab0000 0x00 0x10000>,
@@ -361,6 +384,8 @@
 		iommus = <&rknpu_mmu>;
 		// Operating points (via SCMI clock)
 		operating-points-v2 = <&npu_opp_table>;
+		rknpu-supply = <&vdd_npu_fixed>;
+		mem-supply = <&vdd_npu_mem_fixed>;
 		// Reserved memory kept for legacy no-IOMMU allocations (optional
 		// in IOMMU mode; RKLLM buffers use normal system memory).
 		memory-region = <&npu_reserved>;
