@@ -259,22 +259,18 @@
 
 		opp-300000000 {
 			opp-hz = <0x00 0x11e1a300>;
-			opp-microvolt = <0xa4cb8>;
 		};
 
 		opp-500000000 {
 			opp-hz = <0x00 0x1dcd6500>;
-			opp-microvolt = <0xa4cb8>;
 		};
 
 		opp-700000000 {
 			opp-hz = <0x00 0x29b92700>;
-			opp-microvolt = <0xaae60>;
 		};
 
 		opp-900000000 {
 			opp-hz = <0x00 0x35a4e900>;
-			opp-microvolt = <0xc3500>;
 		};
 	};
 
