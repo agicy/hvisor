@@ -340,14 +340,6 @@
 		regulator-always-on;
 	};
 
-	vdd_npu_mem_fixed: vdd-npu-mem-fixed {
-		compatible = "regulator-fixed";
-		regulator-name = "mem";
-		regulator-min-microvolt = <800000>;
-		regulator-max-microvolt = <800000>;
-		regulator-boot-on;
-		regulator-always-on;
-	};
 
 	rknpu: npu@fdab0000 {
 		compatible = "rockchip,rk3588-rknpu";
@@ -390,7 +382,6 @@
 		// Operating points (via SCMI clock)
 		operating-points-v2 = <&npu_opp_table>;
 		rknpu-supply = <&vdd_npu_fixed>;
-		mem-supply = <&vdd_npu_mem_fixed>;
 		// Reserved memory kept for legacy no-IOMMU allocations (optional
 		// in IOMMU mode; RKLLM buffers use normal system memory).
 		memory-region = <&npu_reserved>;
