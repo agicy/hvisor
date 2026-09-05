@@ -457,10 +457,10 @@
 			};
 		};
 
-		cpu@600 {
+		cpu@200 {
 			device_type = "cpu";
 			compatible = "arm,cortex-a76";
-			reg = <0x600>;
+			reg = <0x200>;
 			enable-method = "psci";
 			capacity-dmips-mhz = <0x400>;
 			cpu-idle-states = <0x2103>;
@@ -474,10 +474,10 @@
 			phandle = <0x2100>;
 		};
 
-		cpu@700 {
+		cpu@300 {
 			device_type = "cpu";
 			compatible = "arm,cortex-a76";
-			reg = <0x700>;
+			reg = <0x300>;
 			enable-method = "psci";
 			capacity-dmips-mhz = <0x400>;
 			cpu-idle-states = <0x2103>;

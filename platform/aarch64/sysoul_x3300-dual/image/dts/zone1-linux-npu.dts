@@ -36,6 +36,12 @@
 				core1 {
 					cpu = <&cpu1>;
 				};
+				core2 {
+					cpu = <&cpu2>;
+				};
+				core3 {
+					cpu = <&cpu3>;
+				};
 			};
 		};
 
@@ -71,6 +77,38 @@
 			next-level-cache = <&l2_cache_b1>;
 		};
 
+		cpu2: cpu@600 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a76";
+			reg = <0x600>;
+			enable-method = "psci";
+			capacity-dmips-mhz = <0x400>;
+			cpu-idle-states = <&cpu_sleep>;
+			i-cache-size = <0x10000>;
+			i-cache-line-size = <0x40>;
+			i-cache-sets = <0x100>;
+			d-cache-size = <0x10000>;
+			d-cache-line-size = <0x40>;
+			d-cache-sets = <0x100>;
+			next-level-cache = <&l2_cache_b2>;
+		};
+
+		cpu3: cpu@700 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a76";
+			reg = <0x700>;
+			enable-method = "psci";
+			capacity-dmips-mhz = <0x400>;
+			cpu-idle-states = <&cpu_sleep>;
+			i-cache-size = <0x10000>;
+			i-cache-line-size = <0x40>;
+			i-cache-sets = <0x100>;
+			d-cache-size = <0x10000>;
+			d-cache-line-size = <0x40>;
+			d-cache-sets = <0x100>;
+			next-level-cache = <&l2_cache_b3>;
+		};
+
 		idle-states {
 			entry-method = "psci";
 
@@ -100,6 +138,22 @@
 			next-level-cache = <&l3_cache>;
 		};
 
+		l2_cache_b2: l2-cache-b2 {
+			compatible = "cache";
+			cache-size = <0x80000>;
+			cache-line-size = <0x40>;
+			cache-sets = <0x400>;
+			next-level-cache = <&l3_cache>;
+		};
+
+		l2_cache_b3: l2-cache-b3 {
+			compatible = "cache";
+			cache-size = <0x80000>;
+			cache-line-size = <0x40>;
+			cache-sets = <0x400>;
+			next-level-cache = <&l3_cache>;
+		};
+
 		l3_cache: l3-cache {
 			compatible = "cache";
 			cache-size = <0x300000>;
@@ -116,7 +170,7 @@
 	arm-pmu {
 		compatible = "arm,armv8-pmuv3";
 		interrupts = <0x01 0x07 0x08>;
-		interrupt-affinity = <&cpu0 &cpu1>;
+		interrupt-affinity = <&cpu0 &cpu1 &cpu2 &cpu3>;
 	};
 
 	timer {

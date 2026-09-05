@@ -3,8 +3,8 @@
   "name": "zone2-android",
   "zone_id": 2,
   "cpus": [
-    6,
-    7
+    2,
+    3
   ],
   "memory_regions": [
     {
