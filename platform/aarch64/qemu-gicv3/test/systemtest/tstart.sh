@@ -9,21 +9,8 @@ spawn make run
 set timeout 240
 # set password [lindex $argv 0]
 
-# Wait for root password prompt and U-Boot prompt
-expect {
-#    "password for chh: " {
-#         puts "\r============Handling sudo password and U-Boot commands============\r"
-#         send "$password\r"
-#         exp_continue
-#    }
-   -re "(1 bootflow, 1 valid).*=>" {
-        # Enter command at prompt
-        send "bootm 0x40400000 - 0x40000000\r"
-   }
-   timeout {
-        exit 1
-   }
-}
+# hvisor is booted directly by QEMU (-kernel), so there is no U-Boot prompt to
+# drive here: just wait for zone0's root shell below.
 
 puts "\n============Testing hvisor startup and virtio daemon============\n"
 

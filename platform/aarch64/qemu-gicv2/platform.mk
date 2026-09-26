@@ -1,6 +1,5 @@
 QEMU := qemu-system-aarch64
 
-UBOOT := $(image_dir)/bootloader/u-boot-v2.bin
 zone0_dtb := $(image_dir)/dts/zone0.dtb
 QEMU_ARGS := -machine virt,secure=on,gic-version=2,virtualization=on,iommu=smmuv3
 MESSAGE := "Note: Feature contains gicv2"
@@ -16,9 +15,14 @@ QEMU_ARGS += -cpu cortex-a72
 QEMU_ARGS += -smp 4
 QEMU_ARGS += -m 2G
 QEMU_ARGS += -nographic
-QEMU_ARGS += -bios $(UBOOT)
 
-QEMU_ARGS += -device loader,file="$(hvisor_bin)",addr=0x40400000,force-raw=on
+# Boot hvisor straight from QEMU's -kernel: no U-Boot/TF-A blob and no flash.img.
+# QEMU parses the uImage header produced below and honours ih_load (0x40400000,
+# the linker's BASE_ADDRESS), and passes the DTB in x0 per the Linux boot protocol.
+# NOTE: the mkimage step is load-bearing and must stay. Handing QEMU the plain
+# objcopy'd binary (or a hand-rolled arm64 Image header) instead does NOT work --
+# QEMU then picks its own address and the guest silently never starts.
+QEMU_ARGS += -kernel $(hvisor_bin)
 QEMU_ARGS += -device loader,file="$(zone0_kernel)",addr=0xa0400000,force-raw=on
 QEMU_ARGS += -device loader,file="$(zone0_dtb)",addr=0xa0000000,force-raw=on
 

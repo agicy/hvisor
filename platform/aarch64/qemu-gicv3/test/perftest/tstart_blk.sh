@@ -32,13 +32,7 @@ expect_before eof {
     }
 }
 
-expect {
-    -re "(1 bootflow, 1 valid).*=>" {
-        send "bootm 0x40400000 - 0x40000000\r"
-    }
-    timeout { fail "U-Boot prompt timeout" }
-}
-
+# hvisor is booted directly by QEMU (-kernel), so there is no U-Boot prompt.
 expect {
     -re {job control turned off.*#} {
         send "bash\r"
