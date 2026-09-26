@@ -400,7 +400,9 @@ fn handle_smc(regs: &mut GeneralRegisters) {
         }
         _ => {
             warn!("unsupported smc {:#x?}", code);
-            0
+            // Same reasoning as the standard-service arm: unknown function IDs
+            // must report NOT_SUPPORTED rather than success.
+            ARM_SMCCC_NOT_SUPPORTED as u64
         }
     };
     regs.usr[0] = result;
@@ -493,7 +495,12 @@ fn handle_psci_smc(
 
         _ => {
             warn!("unsupported smc standard service {:#x?}", code);
-            0
+            // SMCCC requires unimplemented functions to report NOT_SUPPORTED (-1).
+            // Returning 0 here tells the guest the call succeeded, so optional
+            // firmware features probe as present -- e.g. Linux 7.x asks for
+            // RSI_ABI_VERSION, believes it is running in a CCA realm, then
+            // panics in arm64_rsi_setup_memory().
+            ARM_SMCCC_NOT_SUPPORTED as u64
         }
     }
 }
