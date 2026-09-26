@@ -506,7 +506,7 @@ fn handle_psci_smc(
 }
 
 fn handle_arch_smc(
-    _regs: &mut GeneralRegisters,
+    regs: &mut GeneralRegisters,
     code: u64,
     _arg0: u64,
     _arg1: u64,
@@ -514,10 +514,17 @@ fn handle_arch_smc(
 ) -> u64 {
     match code {
         SMCccFnId::SMCCC_VERSION => ARM_SMCCC_VERSION_1_1,
-        SMCccFnId::SMCCC_ARCH_FEATURES => !0,
+        // ARCH_FEATURES answers "is the function named in x1 implemented?", so
+        // only the firmware below us can reply. Answering NOT_SUPPORTED to
+        // everything -- as this used to -- hides that firmware's own
+        // mitigations from the guest: Linux asks about ARCH_WORKAROUND_1
+        // (arch/arm64/kernel/proton-pack.c) and on a "not supported" answer
+        // reports the CPU as SPECTRE_VULNERABLE and drops the mitigation.
+        // Forward the query to EL3, the same way the TOS/SIP ranges do.
+        SMCccFnId::SMCCC_ARCH_FEATURES => smc_call(code, &regs.usr[1..18])[0],
         _ => {
-            error!("unsupported ARM smc service");
-            return !0;
+            warn!("unsupported ARM smc service {:#x?}", code);
+            !0
         }
     }
 }
