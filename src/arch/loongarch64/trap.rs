@@ -653,11 +653,11 @@ pub fn _vcpu_return(ctx: usize) -> ! {
 }
 
 #[no_mangle]
-#[naked]
+#[unsafe(naked)]
 #[link_section = ".trap_entry"]
 extern "C" fn _hyp_trap_vector() {
     unsafe {
-        asm!(
+        core::arch::naked_asm!(
             "csrwr $r3, {LOONGARCH_CSR_DESAVE}",
             "csrrd $r3, {LOONGARCH_CSR_SAVE3}",
             //parpare VmContext for zone_trap_handler
@@ -908,7 +908,6 @@ extern "C" fn _hyp_trap_vector() {
             // LOONGARCH_CSR_PGDH = const 0x1a,
             // LOONGARCH_CSR_SAVE5 = const 0x35,
             // LOONGARCH_CSR_SAVE6 = const 0x36,
-            options(noreturn)
         );
     }
 }
@@ -1828,11 +1827,11 @@ fn emulate_instruction(era: usize, ins: usize, ctx: &mut ZoneContext) {
 
 /* TLB REFILL HANDLER */
 #[no_mangle]
-#[naked]
+#[unsafe(naked)]
 #[link_section = ".tlbrefill_entry"]
 extern "C" fn tlb_refill_handler() {
     unsafe {
-        asm!(
+        core::arch::naked_asm!(
         "csrwr      $r12, {LOONGARCH_CSR_TLBRSAVE}",
         "csrrd      $r12, {LOONGARCH_CSR_PGD}",
         "lddir      $r12, $r12, 3",
@@ -1852,7 +1851,6 @@ extern "C" fn tlb_refill_handler() {
         LOONGARCH_CSR_TLBRSAVE = const 0x8b,
         LOONGARCH_CSR_PGD = const 0x1b,
         PAGE_WALK_MASK = const 0xfff,
-        options(noreturn)
         );
     }
 }

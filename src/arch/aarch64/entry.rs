@@ -18,13 +18,12 @@ use crate::platform::{BOARD_EARLY_CACHE_INVALIDATE_MASKS, BOARD_MPIDR_MAPPINGS};
 
 const INVALID_CPUID: usize = (-1) as _;
 
-#[naked]
+#[unsafe(naked)]
 #[no_mangle]
 #[link_section = ".text.entry"]
 pub unsafe extern "C" fn arch_entry() -> ! {
-    unsafe {
-        core::arch::asm!(
-            "
+    core::arch::naked_asm!(
+        "
             // `arch_entry` receives dtbaddr in `x0`. Keep it in `x20` until `rust_main`.
             // Note: Only callee-saved registers (x19-x28) are guaranteed to be preserved across function calls.
             mov x20, x0
@@ -105,25 +104,23 @@ pub unsafe extern "C" fn arch_entry() -> ! {
             mov x19, #0
             bl {rust_main}            // x0 = cpuid, x1 = dtbaddr
             ",
-            options(noreturn),
-            boot_cpuid_get = sym boot_cpuid_get,
-            cache_inv_masks = sym BOARD_EARLY_CACHE_INVALIDATE_MASKS,
-            cache_invalidate = sym cache_invalidate,
-            per_cpu_size = const PER_CPU_SIZE,
-            rust_main = sym crate::rust_main,
-            clear_bss = sym crate::clear_bss,
-            boot_pt_init = sym super::mmu::boot_pt_init,
-            mmu_enable = sym super::mmu::mmu_enable,
-        );
-    }
+        boot_cpuid_get = sym boot_cpuid_get,
+        cache_inv_masks = sym BOARD_EARLY_CACHE_INVALIDATE_MASKS,
+        cache_invalidate = sym cache_invalidate,
+        per_cpu_size = const PER_CPU_SIZE,
+        rust_main = sym crate::rust_main,
+        clear_bss = sym crate::clear_bss,
+        boot_pt_init = sym super::mmu::boot_pt_init,
+        mmu_enable = sym super::mmu::mmu_enable,
+    );
 }
 
-#[naked]
+#[unsafe(naked)]
 #[no_mangle]
 pub unsafe extern "C" fn boot_cpuid_get() {
     use crate::arch::cpu;
 
-    core::arch::asm!(
+    core::arch::naked_asm!(
         "
         // Return convention for `arch_entry`: leave the logical cpuid in x19.
         mrs x19, mpidr_el1
@@ -156,15 +153,14 @@ pub unsafe extern "C" fn boot_cpuid_get() {
         mpidr_mappings = sym BOARD_MPIDR_MAPPINGS,
         ncpus = const crate::consts::MAX_CPU_NUM,
         inv_id = const INVALID_CPUID,
-        options(noreturn)
     )
 }
 
-#[naked]
+#[unsafe(naked)]
 #[no_mangle]
 #[link_section = ".trampoline"]
 pub unsafe extern "C" fn shutdown_el2(_gu_regs: usize) -> i32 {
-    core::arch::asm!(
+    core::arch::naked_asm!(
         "
         /* x0: guest registers */
         /* Disable mmu */
@@ -201,7 +197,6 @@ pub unsafe extern "C" fn shutdown_el2(_gu_regs: usize) -> i32 {
         eret                            //ret to el2_entry hvc #0 now,depend on ELR_EL2
         
     ",
-        options(noreturn),
     );
 }
 

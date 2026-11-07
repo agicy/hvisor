@@ -14,6 +14,7 @@ numeric-enum-macro = "0.2"
 buddy_system_allocator = "0.8"
 tock-registers = "0.8"
 lazy_static = { version = "1.4", features = ["spin_no_std"] }
+paste = "1.0"
 bitmap-allocator = { git = "https://github.com/rcore-os/bitmap-allocator", rev = "03bd9909" }
 qemu-exit = "3.0.2"
 cortex-a = "8.1.1"
@@ -40,8 +41,8 @@ loongArch64 = "0.2.5"
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86 = "=0.52.0"
-x86_64 = "=0.14.10"
-x2apic = "=0.4.3"
+x86_64 = "=0.15.5"
+x2apic = "=0.5.1"
 raw-cpuid = "=10.7.0"
 acpi = "=5.2.0"
 uguid = "=2.2.0"
