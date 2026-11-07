@@ -300,6 +300,7 @@ impl BootParams {
             if mem_desc_type != MemoryType::RESERVED {
                 *mem_desc = MemoryDescriptor {
                     ty: mem_desc_type,
+                    padding: 0,
                     phys_start: mem_region.virtual_start,
                     virt_start: mem_region.virtual_start,
                     page_count: mem_region.size / (PAGE_SIZE as u64),
@@ -313,6 +314,7 @@ impl BootParams {
         let mem_desc = unsafe { &mut *mem_map };
         *mem_desc = MemoryDescriptor {
             ty: MemoryType::MMIO,
+            padding: 0,
             phys_start: config.pci_config[0].ecam_base,
             virt_start: config.pci_config[0].ecam_base,
             page_count: config.pci_config[0].ecam_size / (PAGE_SIZE as u64),

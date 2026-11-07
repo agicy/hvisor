@@ -21,7 +21,7 @@ use crate::{
     zone::this_zone_id,
 };
 use core::ops::Range;
-use heapless::FnvIndexMap;
+use heapless::index_map::FnvIndexMap;
 
 pub const UART_COM1_BASE_PORT: u16 = 0x3f8;
 pub const UART_COM1_PORT: Range<u16> = 0x3f8..0x400;

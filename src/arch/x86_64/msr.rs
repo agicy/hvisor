@@ -21,7 +21,7 @@ use crate::{
     error::HvResult,
     memory::{Frame, HostPhysAddr},
 };
-use heapless::FnvIndexMap;
+use heapless::index_map::FnvIndexMap;
 use x86::msr::{rdmsr, wrmsr};
 
 numeric_enum_macro::numeric_enum! {

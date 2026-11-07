@@ -22,12 +22,15 @@ use crate::{
     platform::ROOT_PCI_MAX_BUS,
 };
 use acpi::{
-    fadt::Fadt,
-    madt::{LocalApicEntry, Madt, MadtEntry},
-    mcfg::{Mcfg, McfgEntry},
+    platform::PciConfigRegions,
     rsdp::Rsdp,
-    sdt::{SdtHeader, Signature},
-    AcpiHandler, AcpiTables, AmlTable, PciConfigRegions,
+    sdt::{
+        fadt::Fadt,
+        madt::{LocalApicEntry, Madt, MadtEntry},
+        mcfg::{Mcfg, McfgEntry},
+        SdtHeader, Signature,
+    },
+    AcpiTables, Handler,
 };
 use alloc::{
     collections::{btree_map::BTreeMap, btree_set::BTreeSet},
@@ -79,22 +82,126 @@ macro_rules! acpi_table {
 #[derive(Clone, Debug)]
 struct HvAcpiHandler {}
 
-impl AcpiHandler for HvAcpiHandler {
+impl Handler for HvAcpiHandler {
     unsafe fn map_physical_region<T>(
         &self,
         physical_address: usize,
         size: usize,
     ) -> acpi::PhysicalMapping<Self, T> {
-        acpi::PhysicalMapping::new(
-            physical_address,
-            NonNull::new(physical_address as *mut T).unwrap(),
-            size,
-            size,
-            self.clone(),
-        )
+        acpi::PhysicalMapping {
+            physical_start: physical_address,
+            virtual_start: NonNull::new(physical_address as *mut T).unwrap(),
+            region_length: size,
+            mapped_length: size,
+            handler: self.clone(),
+        }
     }
 
-    fn unmap_physical_region<T>(region: &acpi::PhysicalMapping<Self, T>) {}
+    fn unmap_physical_region<T>(_region: &acpi::PhysicalMapping<Self, T>) {}
+
+    fn read_u8(&self, address: usize) -> u8 {
+        unsafe { (address as *const u8).read_volatile() }
+    }
+
+    fn read_u16(&self, address: usize) -> u16 {
+        unsafe { (address as *const u16).read_volatile() }
+    }
+
+    fn read_u32(&self, address: usize) -> u32 {
+        unsafe { (address as *const u32).read_volatile() }
+    }
+
+    fn read_u64(&self, address: usize) -> u64 {
+        unsafe { (address as *const u64).read_volatile() }
+    }
+
+    fn write_u8(&self, address: usize, value: u8) {
+        unsafe { (address as *mut u8).write_volatile(value) }
+    }
+
+    fn write_u16(&self, address: usize, value: u16) {
+        unsafe { (address as *mut u16).write_volatile(value) }
+    }
+
+    fn write_u32(&self, address: usize, value: u32) {
+        unsafe { (address as *mut u32).write_volatile(value) }
+    }
+
+    fn write_u64(&self, address: usize, value: u64) {
+        unsafe { (address as *mut u64).write_volatile(value) }
+    }
+
+    fn read_io_u8(&self, _port: u16) -> u8 {
+        unimplemented!("ACPI port I/O is not used")
+    }
+
+    fn read_io_u16(&self, _port: u16) -> u16 {
+        unimplemented!("ACPI port I/O is not used")
+    }
+
+    fn read_io_u32(&self, _port: u16) -> u32 {
+        unimplemented!("ACPI port I/O is not used")
+    }
+
+    fn write_io_u8(&self, _port: u16, _value: u8) {
+        unimplemented!("ACPI port I/O is not used")
+    }
+
+    fn write_io_u16(&self, _port: u16, _value: u16) {
+        unimplemented!("ACPI port I/O is not used")
+    }
+
+    fn write_io_u32(&self, _port: u16, _value: u32) {
+        unimplemented!("ACPI port I/O is not used")
+    }
+
+    fn read_pci_u8(&self, _address: acpi::PciAddress, _offset: u16) -> u8 {
+        unimplemented!("ACPI PCI config access is not used")
+    }
+
+    fn read_pci_u16(&self, _address: acpi::PciAddress, _offset: u16) -> u16 {
+        unimplemented!("ACPI PCI config access is not used")
+    }
+
+    fn read_pci_u32(&self, _address: acpi::PciAddress, _offset: u16) -> u32 {
+        unimplemented!("ACPI PCI config access is not used")
+    }
+
+    fn write_pci_u8(&self, _address: acpi::PciAddress, _offset: u16, _value: u8) {
+        unimplemented!("ACPI PCI config access is not used")
+    }
+
+    fn write_pci_u16(&self, _address: acpi::PciAddress, _offset: u16, _value: u16) {
+        unimplemented!("ACPI PCI config access is not used")
+    }
+
+    fn write_pci_u32(&self, _address: acpi::PciAddress, _offset: u16, _value: u32) {
+        unimplemented!("ACPI PCI config access is not used")
+    }
+
+    fn nanos_since_boot(&self) -> u64 {
+        0
+    }
+
+    fn stall(&self, _microseconds: u64) {
+        unimplemented!("ACPI stalls are not used")
+    }
+
+    fn sleep(&self, _milliseconds: u64) {
+        unimplemented!("ACPI sleeps are not used")
+    }
+
+    fn create_mutex(&self) -> acpi::Handle {
+        unimplemented!("ACPI AML is not used")
+    }
+
+    fn acquire(&self, _mutex: acpi::Handle, _timeout: u16) -> Result<(), acpi::aml::AmlError> {
+        unimplemented!("ACPI AML is not used")
+    }
+
+    fn release(&self, _mutex: acpi::Handle) {
+        unimplemented!("ACPI AML is not used")
+    }
 }
 
 static ROOT_ACPI: Once<RootAcpi> = Once::new();
@@ -479,7 +586,7 @@ impl RootAcpi {
 
         root_acpi.rsdp.fill(
             None,
-            rsdp_mapping.virtual_start().as_ptr() as *const u8,
+            rsdp_mapping.virtual_start.as_ptr() as *const u8,
             RSDP_V1_SIZE,
             RSDP_CHECKSUM_OFFSET,
         );
@@ -495,8 +602,7 @@ impl RootAcpi {
         root_acpi.add_new_table(Signature::RSDT, rsdt_addr as *const u8, SDT_HEADER_SIZE);
         let mut rsdt_offset = root_acpi.get_mut_table(Signature::RSDT).unwrap().get_len();
 
-        let tables =
-            unsafe { AcpiTables::from_validated_rsdp(HvAcpiHandler {}, rsdp_mapping) }.unwrap();
+        let tables = unsafe { AcpiTables::from_rsdp(HvAcpiHandler {}, rsdp_copy_addr) }.unwrap();
 
         // print rsdt entries
         let mut rsdt_entry = rsdt_addr + 36;
@@ -514,11 +620,11 @@ impl RootAcpi {
         }
 
         // mcfg
-        if let Ok(mcfg) = tables.find_table::<Mcfg>() {
+        if let Some(mcfg) = tables.find_table::<Mcfg>() {
             root_acpi.add_new_table(
                 Signature::MCFG,
-                mcfg.physical_start() as *const u8,
-                mcfg.region_length(),
+                mcfg.physical_start as *const u8,
+                mcfg.region_length,
             );
 
             println!("---------- MCFG ----------");
@@ -550,11 +656,11 @@ impl RootAcpi {
         }
 
         // fadt
-        if let Ok(fadt) = tables.find_table::<Fadt>() {
+        if let Some(fadt) = tables.find_table::<Fadt>() {
             root_acpi.add_new_table(
                 Signature::FADT,
-                fadt.physical_start() as *const u8,
-                fadt.region_length(),
+                fadt.physical_start as *const u8,
+                fadt.region_length,
             );
 
             println!("---------- FADT ----------");
@@ -581,12 +687,12 @@ impl RootAcpi {
             if let Ok(dsdt) = tables.dsdt() {
                 root_acpi.add_new_table(
                     Signature::DSDT,
-                    (dsdt.address - SDT_HEADER_SIZE) as *const u8,
+                    (dsdt.phys_address - SDT_HEADER_SIZE) as *const u8,
                     (dsdt.length as usize + SDT_HEADER_SIZE),
                 );
                 println!(
                     "sig: \"DSDT\" ptr: {:x}, len: {:x}",
-                    dsdt.address, dsdt.length
+                    dsdt.phys_address, dsdt.length
                 );
 
                 root_acpi.add_pointer(Signature::FADT, FADT_DSDT_OFFSET_32, Signature::DSDT, 4);
@@ -605,11 +711,11 @@ impl RootAcpi {
         }
 
         // madt
-        if let Ok(madt) = tables.find_table::<Madt>() {
+        if let Some(madt) = tables.find_table::<Madt>() {
             root_acpi.add_new_table(
                 Signature::MADT,
-                madt.physical_start() as *const u8,
-                madt.region_length(),
+                madt.physical_start as *const u8,
+                madt.region_length,
             );
 
             println!("---------- MADT ----------");
@@ -637,15 +743,15 @@ impl RootAcpi {
 
         // dmar
         acpi_table!(Dmar, DMAR);
-        if let Ok(dmar) = tables.find_table::<Dmar>() {
+        if let Some(dmar) = tables.find_table::<Dmar>() {
             root_acpi.add_new_table(
                 Signature::DMAR,
-                dmar.physical_start() as *const u8,
-                dmar.region_length(),
+                dmar.physical_start as *const u8,
+                dmar.region_length,
             );
 
             /*println!("DMAR: {:x?}", unsafe {
-                *((dmar.physical_start() + 56) as *const [u8; 8])
+                *((dmar.physical_start + 56) as *const [u8; 8])
             });*/
 
             // self.add_pointer(Signature::RSDT, rsdt_offset, Signature::DMAR, RSDT_PTR_SIZE);
@@ -655,7 +761,7 @@ impl RootAcpi {
         // ssdt
         for ssdt in tables.ssdts() {
             root_acpi.add_ssdt(
-                (ssdt.address - SDT_HEADER_SIZE) as *const u8,
+                (ssdt.phys_address - SDT_HEADER_SIZE) as *const u8,
                 (ssdt.length as usize + SDT_HEADER_SIZE),
                 rsdt_offset,
             );

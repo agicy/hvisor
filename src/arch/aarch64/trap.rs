@@ -490,7 +490,7 @@ fn handle_psci_smc(
             remove_zone(zone_id);
 
             if is_root {
-                psci::system_off().unwrap();
+                smccc::psci::system_off::<smccc::Smc>().unwrap();
             }
 
             this_cpu_data().arch_cpu.idle();

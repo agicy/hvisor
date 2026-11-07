@@ -20,8 +20,8 @@ use core::{mem, panic};
 
 use aarch64_cpu::registers::CSSELR_EL1::Level::L1;
 use aarch64_cpu::registers::PAR_EL1::PA;
+use aarch64_cpu::registers::SCTLR_EL2;
 use cfg_if::cfg_if;
-use cortex_a::registers::SCTLR_EL2;
 use tock_registers::interfaces::*;
 use tock_registers::*;
 
@@ -252,7 +252,7 @@ pub extern "C" fn boot_pt_init() {
 }
 
 pub extern "C" fn mmu_enable() {
-    use cortex_a::registers::*;
+    use aarch64_cpu::registers::*;
     MAIR_EL2.write(
         MAIR_EL2::Attr0_Device::nonGathering_nonReordering_noEarlyWriteAck
             + MAIR_EL2::Attr1_Normal_Outer::WriteBack_NonTransient_ReadWriteAlloc

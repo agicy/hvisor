@@ -6,49 +6,48 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-log = "0.4"
-spin = "0.10.0"
-bitflags = "2.1"
-bit_field = "0.10"
-numeric-enum-macro = "0.2"
-buddy_system_allocator = "0.8"
-tock-registers = "0.8"
-lazy_static = { version = "1.4", features = ["spin_no_std"] }
-paste = "1.0"
+log = "0.4.35"
+spin = { version = "0.12.3", features = ["lazy", "mutex", "rwlock"] }
+bitflags = "2.13.2"
+bit_field = "0.10.3"
+numeric-enum-macro = "0.2.0"
+buddy_system_allocator = "0.13.0"
+tock-registers = "0.10.1"
+lazy_static = { version = "1.5.1", features = ["spin_no_std"] }
+paste = "1.0.15"
 bitmap-allocator = { git = "https://github.com/rcore-os/bitmap-allocator", rev = "03bd9909" }
-qemu-exit = "3.0.2"
-cortex-a = "8.1.1"
-cfg-if = "1.0"
-bitvec = { version="1.0.1", default-features = false, features = ["atomic", "alloc"] }
-heapless = { version = "0.8.0 "}
-percpu = { package = "percpu", version="0.2", features=["arm-el2"]}
+qemu-exit = "4.0.0"
+cfg-if = "1.0.5"
+bitvec = { version = "1.1.1", default-features = false, features = ["atomic", "alloc"] }
+heapless = { version = "0.9.3" }
+percpu = { package = "percpu", version = "0.4.0", features = ["arm-el2"] }
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
-aarch64-cpu = "9.4.0"
-psci = { version = "0.1.0", default-features = false, features = ["smc"] }
+aarch64-cpu = "11.2.0"
+smccc = "0.2.3"
 
 [target.'cfg(target_arch = "riscv64")'.dependencies]
-sbi-rt = { version = "0.0.3", features = ["legacy"] }
-sbi-spec = { version = "0.0.8", features = ["legacy"]}
-riscv = "0.13.0"
+sbi-rt = { version = "0.0.4", features = ["legacy"] }
+sbi-spec = { version = "0.0.9", features = ["legacy"] }
+riscv = "0.16.1"
 riscv_h = { package = "riscv", git = "https://github.com/rcore-os/riscv", features = ["inline-asm"] }
-riscv-decode = "0.2.1"
-riscv-peripheral = "0.2.1"
-riscv-pac = "0.2.0"
+riscv-decode = "0.2.3"
+riscv-peripheral = "0.5.1"
+riscv-pac = "0.3.0"
 
 [target.'cfg(target_arch = "loongarch64")'.dependencies]
-loongArch64 = "0.2.5"
+loongArch64 = "0.2.6"
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86 = "=0.52.0"
 x86_64 = "=0.15.5"
 x2apic = "=0.5.1"
-raw-cpuid = "=10.7.0"
-acpi = "=5.2.0"
-uguid = "=2.2.0"
-uefi-raw = "=0.9.0"
+raw-cpuid = "=11.6.0"
+acpi = "=6.1.1"
+uguid = "=2.2.1"
+uefi-raw = "=0.17.0"
 
 [profile.dev]
 # panic = "abort" # avoid cargo test failure, this is a bug of cargo
 debug = 2
-opt-level = 0 
+opt-level = 0

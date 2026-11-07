@@ -192,7 +192,7 @@ fn rust_main(cpuid: usize, host_dtb: usize) {
     if MASTER_CPU.load(Ordering::Acquire) == -1 {
         MASTER_CPU.store(cpuid as i32, Ordering::Release);
         is_primary = true;
-        percpu::init();
+        percpu::init_in_place().unwrap();
         memory::heap::init();
         memory::heap::test();
         arch::time::init_timebase();

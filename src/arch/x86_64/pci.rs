@@ -23,7 +23,7 @@ use crate::{
     },
     zone::{this_zone_id, Zone},
 };
-use ::acpi::{mcfg::Mcfg, sdt::Signature};
+use ::acpi::sdt::{mcfg::Mcfg, Signature};
 use alloc::{
     collections::{btree_map::BTreeMap, vec_deque::VecDeque},
     sync::Arc,

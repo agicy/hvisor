@@ -41,7 +41,7 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use core::sync::atomic::{fence, AtomicU32, AtomicU64, Ordering};
 use core::{arch::asm, ptr::write_volatile};
-use spin::lazy::Lazy;
+use spin::Lazy;
 use spin::Mutex;
 
 impl Zone {

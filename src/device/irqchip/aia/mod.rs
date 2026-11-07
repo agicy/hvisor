@@ -38,7 +38,7 @@ use crate::platform::{
 use crate::root_zone_config;
 use crate::zone::Zone;
 pub use aplic::*;
-use heapless::FnvIndexMap;
+use heapless::index_map::FnvIndexMap;
 pub use imsic::*;
 use spin::Once;
 pub use vaplic::*;
