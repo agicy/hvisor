@@ -24,17 +24,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Install Rust Toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
         with:
-          targets: aarch64-unknown-none
-          components: rust-src rustfmt
+          toolchain: nightly-2026-11-01
+          components: rustfmt
       - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y qemu-system-aarch64 qemu-system-riscv64 gdb-multiarch llvm-dev libclang-dev wget python3-venv
           cargo install --version 0.3.0 --locked cargo-binutils
       - name: Format Check
-        run: make fmt-test
+        run: cargo fmt --all -- --check
 
   license-checker:
     name: license-checker
