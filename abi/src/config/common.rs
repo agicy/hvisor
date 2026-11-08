@@ -33,6 +33,7 @@ pub const CONFIG_MAX_INTERRUPTS: usize = 1024;
 pub const CONFIG_INTERRUPTS_BITMAP_BITS_PER_WORD: usize = 32;
 
 pub const CONFIG_NAME_MAXLEN: usize = 32;
+pub const CONFIG_MAX_ZONES: usize = 32;
 pub const CONFIG_MAX_IVC_CONFIGS: usize = 2;
 pub const CONFIG_PCI_BUS_MAXNUM: usize = 4;
 pub const CONFIG_MAX_PCI_DEV: usize = 32;
