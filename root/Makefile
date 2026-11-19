@@ -55,9 +55,10 @@ check-config-change:
 	fi
 
 tools: env check-config-change
-	$(MAKE) -C linux tools
+	$(MAKE) -C linux tools daemon
 	@mkdir -p $(OUTPUT_DIR)
 	cp linux/tool/hvisor $(OUTPUT_DIR)
+	cp linux/daemon/hvisor-virtio-daemon $(OUTPUT_DIR)
 
 driver: env check-kdir check-config-change
 	$(MAKE) -C linux driver
@@ -66,6 +67,7 @@ driver: env check-kdir check-config-change
 
 transfer: all
 	./trans_file.sh ./linux/tool/hvisor
+	./trans_file.sh ./linux/daemon/hvisor-virtio-daemon
 	./trans_file.sh ./linux/driver/hvisor.ko
 
 tftp:
