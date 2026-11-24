@@ -8782,7 +8782,7 @@
 	 * initrd is staged by hvisor-tool at 0x5b000000; its end must be
 	 * updated to the actual Android 14 ramdisk size. */
 	chosen {
-		bootargs = "console=hvc0 firmware_class.path=/vendor/etc/firmware init=/init rootwait ro loop.max_part=7 androidboot.hardware=rk30board androidboot.boot_devices=vda androidboot.console=ttyFIQ0 androidboot.wificountrycode=CN androidboot.force_normal_boot=1 androidboot.selinux=permissive buildvariant=userdebug no_console_suspend androidboot.healthd.fake_battery=1 androidboot.reboot_on_failure=0";
+		bootargs = "console=hvc0 firmware_class.path=/vendor/etc/firmware init=/init rootwait ro loop.max_part=7 androidboot.hardware=rk30board androidboot.boot_devices=vda androidboot.console=hvc0 androidboot.wificountrycode=CN androidboot.force_normal_boot=1 androidboot.selinux=permissive buildvariant=userdebug no_console_suspend androidboot.healthd.fake_battery=1 androidboot.reboot_on_failure=0";
 		linux,initrd-start = <0x5b000000>;
 		linux,initrd-end = <0x5d126852>;
 	};
