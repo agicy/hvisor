@@ -88,6 +88,13 @@
     "dtb_load_paddr": "0x30000000",
     "entry_point": "0x30400000",
     "kernel_args": "",
+    "modules": [
+        {
+            "name": "ramdisk",
+            "filepath": "./zone1-initramfs.cpio.gz",
+            "load_paddr": "0x34000000"
+        }
+    ],
     "arch_config": {
         "gic_version": "v3",
         "gicd_base": "0xfe600000",

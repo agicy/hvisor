@@ -457,9 +457,14 @@
     "kernel_args": "",
     "modules": [
         {
+            "name": "vendor_ramdisk",
+            "filepath": "./zone2-android14-vendor-ramdisk",
+            "load_paddr": "0x5b000000"
+        },
+        {
             "name": "ramdisk",
             "filepath": "./zone2-android14-ramdisk",
-            "load_paddr": "0x5b000000"
+            "load_paddr": "0x5cef5600"
         }
     ],
     "arch_config": {
