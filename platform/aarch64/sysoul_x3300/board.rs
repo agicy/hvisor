@@ -226,7 +226,8 @@ pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[
     0x69, // dmc
     0x76, 0x77, 0x78, 0x79, // dma-controller@fea10000/fea30000
     0x7a, 0x7b, // dma-controller@fed10000
-    0xeb, // sdmmc@fe2c0000 (root SD rootfs)
+    0xeb, // sdmmc@fe2c0000 (SD; rootfs is on eMMC)
+    0xed, // mmc@fe2e0000 (eMMC rootfs; DTS SPI 0xcd + 32)
     0x109, 0x10a, // ethernet@fe1c0000 (gmac1, root network)
     0x135, // gpio@fd8a0000 (gpio0: SD vmmc enable, rk806 int etc.)
     // 0x137, // gpio2 -> zone2 (android panel reset/enable)

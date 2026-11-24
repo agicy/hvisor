@@ -6350,8 +6350,8 @@
 		reset-names = "core", "bus", "axi", "block", "timer";
 		max-frequency = <0xbebc200>;
 		supports-cqe;
-		status = "disabled"; /* eMMC moved to zone2 (android storage passthrough);
-				       root-linux rootfs now lives on the SD card (mmc@fe2c0000) */
+		status = "okay"; /* root-linux rootfs lives on eMMC (zone0_rootfs);
+				   Android uses virtio-blk vda/vdb, not eMMC */
 		bus-width = <0x08>;
 		no-sdio;
 		no-sd;
@@ -12736,8 +12736,17 @@
 		phandle = <0x4c7>;
 	};
 
+	/*
+	 * earlycon quirk on this board: the earlycon parameter must carry 115200,
+	 * not the physical UART baud. With 1500000 the 8250 earlycon setup is
+	 * rejected/fails, so the kernel prints nothing before ttyFIQ0 probes.
+	 * U-Boot and hvisor leave the real UART at 1500000; earlycon does not
+	 * reprogram the divisor here, it only uses this value during early setup.
+	 * The real console (fiq-debugger / ttyFIQ0) still runs at 1500000,
+	 * see rockchip,baudrate = <0x16e360> below.
+	 */
 	chosen {
-		bootargs = "root=PARTLABEL=zone0_rootfs rootfstype=ext4 ro rootwait earlycon=uart8250,mmio32,0xfeb50000,1500000 console=ttyFIQ0 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
+		bootargs = "root=PARTLABEL=zone0_rootfs rootfstype=ext4 ro rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyFIQ0 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
 		phandle = <0x4c8>;
 	};
 
