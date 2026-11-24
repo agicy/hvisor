@@ -2,7 +2,10 @@
     "arch": "arm64",
     "name": "zone2-android",
     "zone_id": 2,
-    "cpus": [2, 3],
+    "cpus": [
+        2,
+        3
+    ],
     "memory_regions": [
         {
             "type": "io",
@@ -93,12 +96,6 @@
             "physical_start": "0xfd5e8000",
             "virtual_start": "0xfd5e8000",
             "size": "0x4000"
-        },
-        {
-            "type": "io",
-            "physical_start": "0xfe2e0000",
-            "virtual_start": "0xfe2e0000",
-            "size": "0x10000"
         },
         {
             "type": "io",
@@ -279,6 +276,18 @@
             "physical_start": "0xfec20000",
             "virtual_start": "0xfec20000",
             "size": "0x1000"
+        },
+        {
+            "type": "virtio",
+            "physical_start": "0xffa70000",
+            "virtual_start": "0xffa70000",
+            "size": "0x1000"
+        },
+        {
+            "type": "virtio",
+            "physical_start": "0xffa90000",
+            "virtual_start": "0xffa90000",
+            "size": "0x1000"
         }
     ],
     "interrupts": [
@@ -303,7 +312,9 @@
         "0x1a8",
         "0x1a9",
         "0x161",
-        "0x136"
+        "0x136",
+        "0x6a",
+        "0x6b"
     ],
     "devices": [
         {
@@ -313,16 +324,106 @@
             "irq": "0x66",
             "status": "enable",
             "clock_ids": [
-                8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-                24, 47, 48, 49, 50, 38, 39, 40, 41, 42, 43, 44, 45, 46, 51, 52,
-                53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68,
-                69, 70
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                47,
+                48,
+                49,
+                50,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70
             ],
             "reset_ids": [
-                6, 7, 8, 9, 10, 11, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-                41, 42, 43, 44, 45, 46, 47, 48, 49
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49
             ],
-            "power_ids": [3, 4, 6]
+            "power_ids": [
+                3,
+                4,
+                6
+            ]
+        },
+        {
+            "type": "blk",
+            "addr": "0xffa70000",
+            "len": "0x200",
+            "irq": "0x6a",
+            "img": "zone2_android.img",
+            "status": "enable"
+        },
+        {
+            "type": "blk",
+            "addr": "0xffa90000",
+            "len": "0x200",
+            "irq": "0x6b",
+            "img": "zone2_data.img",
+            "status": "enable"
         },
         {
             "type": "console",
@@ -337,13 +438,20 @@
             "len": "0x200",
             "irq": "0x69",
             "tap": "tap1",
-            "mac": ["0x02", "0x00", "0x00", "0x00", "0x01", "0x02"],
+            "mac": [
+                "0x02",
+                "0x00",
+                "0x00",
+                "0x00",
+                "0x01",
+                "0x02"
+            ],
             "status": "enable"
         }
     ],
     "ivc_configs": [],
-    "kernel_filepath": "./202609-android-Image",
-    "dtb_filepath": "./202609-sysoul_x3300_zone2-android.dtb",
+    "kernel_filepath": "./zone2-android14-Image",
+    "dtb_filepath": "./zone2-android14.dtb",
     "kernel_load_paddr": "0x58400000",
     "dtb_load_paddr": "0x58000000",
     "entry_point": "0x58400000",
@@ -351,7 +459,7 @@
     "modules": [
         {
             "name": "ramdisk",
-            "filepath": "./202609-android-ramdisk",
+            "filepath": "./zone2-android14-ramdisk",
             "load_paddr": "0x5b000000"
         }
     ],

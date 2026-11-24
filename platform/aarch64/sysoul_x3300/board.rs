@@ -60,9 +60,9 @@ pub const BOARD_PHYSMEM_LIST: &[(u64, u64, MemoryType)] = &[
     (0x4_f000_0000, 0x5_0000_0000, MemoryType::Normal),
 ];
 
-pub const ROOT_ZONE_DTB_ADDR: u64 = 0x2000_0000;
-pub const ROOT_ZONE_KERNEL_ADDR: u64 = 0x2040_0000;
-pub const ROOT_ZONE_ENTRY: u64 = 0x2040_0000;
+pub const ROOT_ZONE_DTB_ADDR: u64 = 0x2100_0000;
+pub const ROOT_ZONE_KERNEL_ADDR: u64 = 0x2140_0000;
+pub const ROOT_ZONE_ENTRY: u64 = 0x2140_0000;
 pub const ROOT_ZONE_CPUS: u64 = (1 << 2) - 1;
 
 pub const ROOT_ZONE_NAME: &str = "root-linux";

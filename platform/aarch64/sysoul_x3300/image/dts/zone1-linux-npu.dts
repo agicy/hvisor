@@ -252,6 +252,15 @@
 		compatible = "virtio,mmio";
 	};
 
+	// virtio-mmio for zone1 data overlay (vdb)
+	virtio_mmio@ffa20000 {
+		dma-coherent;
+		interrupt-parent = <&gic>;
+		interrupts = <0x0 0x4c 0x1>;
+		reg = <0x0 0xffa20000 0x0 0x200>;
+		compatible = "virtio,mmio";
+	};
+
 	// ========== NPU OPP Table ==========
 
 	npu_opp_table: npu-opp-table {
@@ -409,7 +418,9 @@
 	};
 
 	chosen {
-		bootargs = "earlycon=virtio,mmio,0xff9e0000 console=hvc0 root=/dev/vda rootwait rw";
+		bootargs = "earlycon=virtio,mmio,0xff9e0000 console=hvc0 root=/dev/vda rootwait ro";
 		stdout-path = "/virtio_mmio@0xff9e0000";
+		linux,initrd-start = <872415232>;
+		linux,initrd-end = <874148737>;
 	};
 };

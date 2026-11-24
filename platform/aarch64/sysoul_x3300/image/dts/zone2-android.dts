@@ -5,16 +5,17 @@
  * Derived from the working passthrough android dts (zone1-android.dts)
  * by stripping to the zone2 device set:
  *   - cpus 6/7 only, 2 GB RAM at 0x58000000
- *   - passthrough: Mali GPU, VOP2 + VOP IOMMU, DSI0 + dcphy0, eMMC
- *     (mmc@fe2e0000), gpio2 (panel), lcd backlight pwm, needed GRFs
+ *   - passthrough: Mali GPU, VOP2 + VOP IOMMU, DSI0 + dcphy0,
+ *     gpio2 (panel), lcd backlight pwm, needed GRFs
+ *   - vda = Android 14 system disk, vdb = userdata, both via virtio-blk
+ *     (virtio-mmio nodes at 0xffa70000 / 0xffa90000)
  *   - all clocks/resets/power-domains of the passed devices come from
  *     VirtIO-SCMI (virtual ids match configs/zone2-android.json); the
  *     cru/pmucru/power-controller nodes stay as dead phandle anchors
  *     (status disabled, registers not mapped)
- *   - console=hvc0 over virtio (no physical uart in this zone); no
- *     earlycon (kernel 5.10 has no earlycon=virtio,mmio)
- *   - androidboot.boot_devices=fe2e0000.mmc: android boots from the
- *     passthrough eMMC exactly like the previous zone1 config
+ *   - console=hvc0 over virtio (no physical uart in this zone)
+ *   - androidboot.boot_devices=vda: Android 14 first-stage init finds
+ *     the virtio system disk; userdata is /dev/block/vdb1
  *
  * Known deltas vs bare-metal android:
  *   - gpu clk_mali arrives via VirtIO-SCMI virtual id 0 (same SCP
@@ -27,8 +28,10 @@
  *   - pwm1 "active" pinctrl stripped (pin mux regs live in pmu-grf,
  *     which stays with root) - backlight pin mux comes from u-boot
  *
- * Requires the android 5.10 kernel with virtio-scmi transport
- * (CONFIG_ARM_SCMI_TRANSPORT_VIRTIO backport) enabled.
+ * Android 14 note: this file is still derived from the 5.10 device set.
+ * The storage path is now virtio-blk, and the 6.1 base DTS should be
+ * used as the reference when porting the remaining GPU/VOP/DSI nodes.
+ * CONFIG_ARM_SCMI_TRANSPORT_VIRTIO is required.
  */
 /dts-v1/;
 
@@ -5140,7 +5143,8 @@
 		resets = <&scmi_rst 6 &scmi_rst 7 &scmi_rst 8 &scmi_rst 9 &scmi_rst 10>;
 		reset-names = "core", "bus", "axi", "block", "timer";
 		max-frequency = <0xbebc200>;
-		status = "okay";
+		/* Android 14 uses virtio-blk vda/vdb; keep eMMC in root. */
+		status = "disabled";
 		bus-width = <0x08>;
 		no-sdio;
 		no-sd;
@@ -8774,12 +8778,13 @@
 	};
 
 	/* zone2-android: virtio console (hvc0); no physical uart in this zone.
-	 * No earlycon (5.10 lacks earlycon=virtio,mmio). initrd staged by
-	 * hvisor-tool at 0x5b000000 (see configs/zone2-android.json). */
+	 * Android 14 boots from virtio-blk vda; userdata is vdb1.
+	 * initrd is staged by hvisor-tool at 0x5b000000; its end must be
+	 * updated to the actual Android 14 ramdisk size. */
 	chosen {
-		bootargs = "console=hvc0 firmware_class.path=/vendor/etc/firmware init=/init rootwait ro loop.max_part=7 androidboot.hardware=rk30board androidboot.boot_devices=fe2e0000.mmc androidboot.selinux=permissive buildvariant=userdebug no_console_suspend androidboot.healthd.fake_battery=1 androidboot.reboot_on_failure=0";
+		bootargs = "console=hvc0 firmware_class.path=/vendor/etc/firmware init=/init rootwait ro loop.max_part=7 androidboot.hardware=rk30board androidboot.boot_devices=vda androidboot.console=ttyFIQ0 androidboot.wificountrycode=CN androidboot.force_normal_boot=1 androidboot.selinux=permissive buildvariant=userdebug no_console_suspend androidboot.healthd.fake_battery=1 androidboot.reboot_on_failure=0";
 		linux,initrd-start = <0x5b000000>;
-		linux,initrd-end = <0x5b14bb9c>;
+		linux,initrd-end = <0x5d126852>;
 	};
 
 
@@ -8959,6 +8964,24 @@
 		interrupt-parent = <0x01>;
 		interrupts = <0x0 0x49 0x1>;
 		reg = <0x0 0xffa50000 0x0 0x200>;
+		compatible = "virtio,mmio";
+	};
+
+	/* virtio-mmio for Android system disk vda (SPI 0x4a = INTID 0x6a) */
+	virtio_mmio@ffa70000 {
+		dma-coherent;
+		interrupt-parent = <0x01>;
+		interrupts = <0x0 0x4a 0x1>;
+		reg = <0x0 0xffa70000 0x0 0x200>;
+		compatible = "virtio,mmio";
+	};
+
+	/* virtio-mmio for Android userdata vdb (SPI 0x4b = INTID 0x6b) */
+	virtio_mmio@ffa90000 {
+		dma-coherent;
+		interrupt-parent = <0x01>;
+		interrupts = <0x0 0x4b 0x1>;
+		reg = <0x0 0xffa90000 0x0 0x200>;
 		compatible = "virtio,mmio";
 	};
 

@@ -12471,6 +12471,27 @@
 			status = "disabled";
 			phandle = <0x20b>;
 		};
+
+		/* AMP PMU Cortex-M0: firmware is loaded at 0x07b00000 and
+		 * RPmsg uses 0x07c00000..0x08100000.  Keep Linux off both. */
+		amp_fw: amp-fw@7b00000 {
+			reg = <0x00 0x07b00000 0x00 0x00100000>;
+			no-map;
+			status = "okay";
+		};
+
+		/* PMU Cortex-M0 TCM; keep the A-core root zone off this window. */
+		pmu_tcm: pmu-tcm@20000000 {
+			reg = <0x00 0x20000000 0x00 0x00010000>;
+			no-map;
+			status = "okay";
+		};
+
+		amp_rpmsg: amp-rpmsg@7c00000 {
+			reg = <0x00 0x07c00000 0x00 0x00500000>;
+			no-map;
+			status = "okay";
+		};
 	};
 
 	es8388-sound {
@@ -12716,7 +12737,7 @@
 	};
 
 	chosen {
-		bootargs = "root=PARTUUID=614e0000-0000-4b53-8000-1d28000054a9 rootfstype=ext4 rw rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyFIQ0 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
+		bootargs = "root=PARTLABEL=zone0_rootfs rootfstype=ext4 ro rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyFIQ0 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
 		phandle = <0x4c8>;
 	};
 
