@@ -12737,7 +12737,7 @@
 	};
 
 	chosen {
-		bootargs = "root=PARTLABEL=zone0_rootfs rootfstype=ext4 ro rootwait earlycon=uart8250,mmio32,0xfeb50000,115200 console=ttyFIQ0 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
+		bootargs = "root=PARTLABEL=zone0_rootfs rootfstype=ext4 ro rootwait earlycon=uart8250,mmio32,0xfeb50000,1500000 console=ttyFIQ0 coherent_pool=1m systemd.gpt_auto=0 cgroup_enable=memory swapaccount=1 net.ifnames=0 clk_ignore_unused rockchip_pm_domains.always_on=1";
 		phandle = <0x4c8>;
 	};
 
