@@ -203,14 +203,16 @@ void stop_virtio_control_server(void) {
 
 int virtio_start(int argc, char *argv[]) {
     int err;
-    if (argc < 4)
+    if (argc < 3 || argc > 4)
         return -1;
     err = virtio_init();
     if (err)
         return err;
-    err = virtio_start_from_json(argv[3]);
-    if (err)
-        goto err_out;
+    if (argc == 4) {
+        err = virtio_start_from_json(argv[3]);
+        if (err)
+            goto err_out;
+    }
     if (start_virtio_control_server() != 0) {
         err = -1;
         goto err_out;
