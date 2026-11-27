@@ -28,7 +28,14 @@
                     "len": "0x200",
                     "irq": 14,
                     "tap": "tap0",
-                    "mac": ["0x00", "0x16", "0x3e", "0x10", "0x10", "0x10"],
+                    "mac": [
+                        "0x00",
+                        "0x16",
+                        "0x3e",
+                        "0x10",
+                        "0x10",
+                        "0x10"
+                    ],
                     "status": "enable"
                 },
                 {
@@ -36,7 +43,7 @@
                     "addr": "0x5950f400",
                     "len": "0x200",
                     "irq": 11,
-                    "img": "rootfs2.img",
+                    "img": "/dev/vdb",
                     "status": "enable"
                 }
             ]

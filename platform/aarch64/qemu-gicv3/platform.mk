@@ -22,8 +22,14 @@ QEMU_ARGS += -device loader,file="$(hvisor_bin)",addr=0x40400000,force-raw=on
 QEMU_ARGS += -device loader,file="$(zone0_kernel)",addr=0xa0400000,force-raw=on
 QEMU_ARGS += -device loader,file="$(zone0_dtb)",addr=0xa0000000,force-raw=on
 
-QEMU_ARGS += -drive if=none,file=$(FSIMG1),id=Xa003e000,format=raw
+# Attach rootfs1 on bus.29 (0xa003a00, IRQ 77) and optional rootfs2 on bus.31
+# (0xa003e00, IRQ 79) so DT probe order maps rootfs1 -> /dev/vda, rootfs2 -> /dev/vdb.
+QEMU_ARGS += -drive if=none,file=$(FSIMG1),id=Xa003a00,format=raw
+QEMU_ARGS += -device virtio-blk-device,drive=Xa003a00,bus=virtio-mmio-bus.29
+ifneq ($(wildcard $(FSIMG2)),)
+QEMU_ARGS += -drive if=none,file=$(FSIMG2),id=Xa003e000,format=raw
 QEMU_ARGS += -device virtio-blk-device,drive=Xa003e000,bus=virtio-mmio-bus.31
+endif
 
 $(hvisor_bin): elf
 	@if ! command -v mkimage > /dev/null; then \

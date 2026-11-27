@@ -71,10 +71,10 @@ pub const IRQ_WAKEUP_VIRTIO_DEVICE: usize = 0x20;
 // Note: all here's irqs are hardware irqs,
 //  only these irq can be transferred to the physical PLIC.
 // For qemu-virt, 32 is pcie pinA, 33 is pcie pinB, 34 is pcie pinC, 35 is pcie pinD, now only use 33,34
-pub const HW_IRQS: &[u32] = &[10, 33, 34];
+pub const HW_IRQS: &[u32] = &[10, 33, 34, 35];
 
 // irqs belong to the root zone.
-pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[10, 33]);
+pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[10, 33, 35]);
 
 // Interrupt-controller config for the root zone.
 pub const ROOT_ARCH_ZONE_CONFIG: HvArchZoneConfig = HvArchZoneConfig {
@@ -106,6 +106,6 @@ pub const ROOT_ZONE_IVC_CONFIG: &[HvIvcConfig] = &[];
 pub const ROOT_PCI_DEVS: &[HvPciDevConfig] = &[
     pci_dev!(0x0, 0x0, 0x0, 0x0 => 0x0, 0x0, 0x0, VpciDevType::Physical),
     pci_dev!(0x0, 0x0, 0x1, 0x0 => 0x0, 0x1, 0x0, VpciDevType::Physical),
-    // pci_dev!(0x0, 0x0, 0x3, 0x0 => 0x0, 0x3, 0x0, VpciDevType::Physical),
+    pci_dev!(0x0, 0x0, 0x3, 0x0 => 0x0, 0x3, 0x0, VpciDevType::Physical),
     // pci_dev!(0x0, 0x0, 0x5, 0x0 => 0x0, 0x5, 0x0, VpciDevType::StandardVdev),
 ];

@@ -53,6 +53,9 @@ deploy_artifacts() {
     # Device Tree & Configurations
     sudo cp -v "${DTS_DIR}/zone1-linux.dtb" "${dest_dir}/zone1-linux.dtb"
     sudo cp -v "${CONFIG_DIR}/virtio-backend.json" "${dest_dir}/virtio-backend.json"
+    if [ ! -f "${WORKSPACE_ROOT}/platform/riscv64/qemu-plic/image/virtdisk/rootfs2.ext4" ]; then
+        sudo sed -i 's|"/dev/vdb"|"rootfs2.ext4"|' "${dest_dir}/virtio-backend.json"
+    fi
     sudo cp -v "${CONFIG_DIR}/zone1-linux-virtio.json" "${dest_dir}/zone1-linux-virtio.json"
     # Test artifacts
     sudo cp -v ${TEST_DIR}/testcase/* "${test_dest}/testcase/"

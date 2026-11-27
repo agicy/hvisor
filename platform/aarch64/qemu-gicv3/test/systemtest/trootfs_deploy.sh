@@ -54,6 +54,9 @@ deploy_artifacts() {
     sudo cp -v "${DTS_DIR}/zone1-linux.dtb" "${dest_dir}/zone1-linux.dtb"
     sudo cp -v "${CONFIG_DIR}/zone1-linux.json" "${dest_dir}/zone1-linux.json"
     sudo cp -v "${CONFIG_DIR}/zone1-linux-virtio.json" "${dest_dir}/zone1-linux-virtio.json"
+    if [ ! -f "${WORKSPACE_ROOT}/platform/aarch64/qemu-gicv3/image/virtdisk/rootfs2.ext4" ]; then
+        sudo sed -i 's|"/dev/vdb"|"rootfs2.ext4"|' "${dest_dir}/zone1-linux-virtio.json"
+    fi
     # Test artifacts
     sudo cp -v ${TEST_DIR}/testcase/* "${test_dest}/testcase/"
     sudo cp -v "${TEST_DIR}/textract_dmesg.sh" "${test_dest}/"

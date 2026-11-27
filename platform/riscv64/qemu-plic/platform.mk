@@ -27,9 +27,10 @@ QEMU_ARGS += -drive if=none,file=$(FSIMG1),id=hd0,format=raw
 # QEMU_ARGS += -device virtio-blk-device,drive=hd0,bus=virtio-mmio-bus.7
 QEMU_ARGS += -device virtio-blk-pci,drive=hd0,disable-legacy=on,disable-modern=off,addr=01.0 # ,iommu_platform=on
 QEMU_ARGS += -device virtio-serial-device,bus=virtio-mmio-bus.6 -chardev pty,id=X10007000 -device virtconsole,chardev=X10007000 -S
+ifneq ($(wildcard $(FSIMG2)),)
 QEMU_ARGS += -drive if=none,file=$(FSIMG2),id=hd1,format=raw
-# QEMU_ARGS += -device virtio-blk-device,drive=hd1,bus=virtio-mmio-bus.5
-QEMU_ARGS += -device virtio-blk-pci,drive=hd1,disable-legacy=on,disable-modern=off,addr=02.0 #,iommu_platform=on
+QEMU_ARGS += -device virtio-blk-pci,drive=hd1,disable-legacy=on,disable-modern=off,addr=03.0
+endif
 # -------------------------------------------------------------------
 
 # QEMU_ARGS := -machine virt

@@ -6,8 +6,8 @@ zone0_setup := $(image_dir)/kernel/setup.bin
 zone0_vmlinux := $(image_dir)/kernel/vmlinux.bin
 zone0_asterinas := $(image_dir)/kernel/aster-kernel-osdk-bin
 zone0_initrd := $(image_dir)/virtdisk/initramfs.cpio.gz
-zone0_rootfs := $(image_dir)/virtdisk/rootfs1.img
-zone1_rootfs := $(image_dir)/virtdisk/rootfs2.img
+zone0_rootfs := $(if $(wildcard $(image_dir)/virtdisk/rootfs1.ext4),$(image_dir)/virtdisk/rootfs1.ext4,$(image_dir)/virtdisk/rootfs1.img)
+zone1_rootfs := $(if $(wildcard $(image_dir)/virtdisk/rootfs2.ext4),$(image_dir)/virtdisk/rootfs2.ext4,$(image_dir)/virtdisk/rootfs2.img)
 
 QEMU_ARGS := -machine q35,kernel-irqchip=split
 QEMU_ARGS += -cpu host,+x2apic,+invtsc,+vmx -accel kvm
@@ -27,7 +27,11 @@ QEMU_ARGS += -device ioh3420,id=pcie.1,chassis=1
 
 # TODO: Asterinas
 QEMU_ARGS += -drive if=none,file="$(zone0_rootfs)",id=X10008000,format=raw
-QEMU_ARGS += -device virtio-blk-pci,bus=pcie.1,drive=X10008000,disable-legacy=on,disable-modern=off,iommu_platform=on,ats=on
+QEMU_ARGS += -device virtio-blk-pci,bus=pcie.1,addr=00.0,multifunction=on,drive=X10008000,disable-legacy=on,disable-modern=off,iommu_platform=on,ats=on
+ifneq ($(wildcard $(zone1_rootfs)),)
+QEMU_ARGS += -drive if=none,file="$(zone1_rootfs)",id=X10009000,format=raw
+QEMU_ARGS += -device virtio-blk-pci,bus=pcie.1,addr=00.1,drive=X10009000,disable-legacy=on,disable-modern=off,iommu_platform=on,ats=on
+endif
 
 # TODO: Asterinas
 # QEMU_ARGS += -device virtio-serial

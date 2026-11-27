@@ -2,7 +2,10 @@
     "arch": "riscv",
     "name": "linux2",
     "zone_id": 1,
-    "cpus": [2, 3],
+    "cpus": [
+        2,
+        3
+    ],
     "memory_regions": [
         {
             "type": "ram",
@@ -12,12 +15,28 @@
         },
         {
             "type": "virtio",
+            "physical_start": "0x10005000",
+            "virtual_start": "0x10005000",
+            "size": "0x1000"
+        },
+        {
+            "type": "virtio",
+            "physical_start": "0x10006000",
+            "virtual_start": "0x10006000",
+            "size": "0x1000"
+        },
+        {
+            "type": "virtio",
             "physical_start": "0x10007000",
             "virtual_start": "0x10007000",
             "size": "0x1000"
         }
     ],
-    "interrupts": [7, 34],
+    "interrupts": [
+        5,
+        6,
+        7
+    ],
     "ivc_configs": [],
     "kernel_filepath": "./Image",
     "dtb_filepath": "./zone1-linux.dtb",
@@ -48,7 +67,7 @@
             "domain": "0x0"
         }
     ],
-    "num_pci_devs": 2,
+    "num_pci_devs": 1,
     "alloc_pci_devs": [
         {
             "domain": "0x0",
@@ -57,16 +76,6 @@
             "function": "0x0",
             "v_bus": "0x0",
             "v_device": "0x0",
-            "v_function": "0x0",
-            "dev_type": "0"
-        },
-        {
-            "domain": "0x0",
-            "bus": "0x0",
-            "device": "0x2",
-            "function": "0x0",
-            "v_bus": "0x0",
-            "v_device": "0x1",
             "v_function": "0x0",
             "dev_type": "0"
         }

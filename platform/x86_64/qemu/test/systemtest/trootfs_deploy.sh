@@ -64,6 +64,9 @@ deploy_artifacts() {
     # Copy configurations
     sudo cp -v "${CONFIG_DIR}/zone1_linux.json" "${dest_dir}/zone1_linux.json"
     sudo cp -v "${CONFIG_DIR}/virtio_cfg.json" "${dest_dir}/virtio_cfg.json"
+    if [ ! -f "${WORKSPACE_ROOT}/platform/x86_64/qemu/image/virtdisk/rootfs2.img" ] && [ ! -f "${WORKSPACE_ROOT}/platform/x86_64/qemu/image/virtdisk/rootfs2.ext4" ]; then
+        sudo sed -i 's|"/dev/vdb"|"rootfs2.img"|' "${dest_dir}/virtio_cfg.json"
+    fi
     # Copy test artifacts
     mkdir -p "${test_dest}"
     mkdir -p "${test_dest}/testcase"

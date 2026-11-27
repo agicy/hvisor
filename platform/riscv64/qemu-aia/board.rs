@@ -63,8 +63,8 @@ pub const ROOT_ZONE_MEMORY_REGIONS: &[HvConfigMemoryRegion] = &[
 ];
 
 pub const IRQ_WAKEUP_VIRTIO_DEVICE: usize = 0x20;
-pub const HW_IRQS: &[u32] = &[7, 10, 33, 34];
-pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[10, 33]); // ARCH= riscv .It doesn't matter temporarily.
+pub const HW_IRQS: &[u32] = &[7, 10, 33, 34, 35];
+pub const ROOT_ZONE_IRQS_BITMAP: &[BitmapWord] = &get_irqs_bitmap(&[10, 33, 35]); // ARCH= riscv .It doesn't matter temporarily.
 
 pub const ROOT_ARCH_ZONE_CONFIG: HvArchZoneConfig = HvArchZoneConfig {
     plic_base: 0x0,
@@ -95,6 +95,6 @@ pub const ROOT_ZONE_IVC_CONFIG: &[HvIvcConfig] = &[];
 pub const ROOT_PCI_DEVS: &[HvPciDevConfig] = &[
     pci_dev!(0x0, 0x0, 0x0, 0x0 => 0x0, 0x0, 0x0, VpciDevType::Physical),
     pci_dev!(0x0, 0x0, 0x1, 0x0 => 0x0, 0x1, 0x0, VpciDevType::Physical),
-    // pci_dev!(0x0, 0x0, 0x3, 0x0 => 0x0, 0x3, 0x0, VpciDevType::Physical),
+    pci_dev!(0x0, 0x0, 0x3, 0x0 => 0x0, 0x3, 0x0, VpciDevType::Physical),
     // pci_dev!(0x0, 0x0, 0x5, 0x0 => 0x0, 0x5, 0x0, VpciDevType::StandardVdev),
 ];

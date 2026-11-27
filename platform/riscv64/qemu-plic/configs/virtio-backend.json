@@ -11,11 +11,27 @@
             ],
             "devices": [
                 {
+                    "type": "net",
+                    "addr": "0x10005000",
+                    "len": "0x1000",
+                    "irq": 5,
+                    "tap": "tap0",
+                    "mac": [
+                        "0x02",
+                        "0x00",
+                        "0x00",
+                        "0x00",
+                        "0x01",
+                        "0x01"
+                    ],
+                    "status": "enable"
+                },
+                {
                     "type": "blk",
                     "addr": "0x10006000",
                     "len": "0x1000",
                     "irq": 6,
-                    "img": "rootfs2.ext4",
+                    "img": "/dev/vdb",
                     "status": "enable"
                 },
                 {
