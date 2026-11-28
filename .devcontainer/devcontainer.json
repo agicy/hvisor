@@ -1,0 +1,15 @@
+{
+    "name": "hvisor-dev",
+    "build": { "dockerfile": "../docker/Dockerfile", "context": ".." },
+    "workspaceFolder": "/ws",
+    "mounts": [
+        "source=hvisor-cargo,target=/root/.cargo,type=volume",
+        "source=hvisor-target,target=/ws/target,type=volume"
+    ],
+    "runArgs": ["--device=/dev/kvm"],
+    "customizations": {
+        "vscode": {
+            "extensions": ["rust-lang.rust-analyzer", "ms-vscode.cpptools"]
+        }
+    }
+}
