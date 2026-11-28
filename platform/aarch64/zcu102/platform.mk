@@ -5,21 +5,7 @@
 # however we must use petalinux-boot qemu to use it because it need some background servers ?
 
 $(hvisor_bin): elf
-	@if ! command -v mkimage > /dev/null; then \
-		if [ "$(shell uname)" = "Linux" ]; then \
-			echo "mkimage not found. Installing using apt..."; \
-			sudo apt update && sudo apt install -y u-boot-tools; \
-		elif [ "$(shell uname)" = "Darwin" ]; then \
-			echo "mkimage not found. Installing using brew, you may need to reopen the Terminal App"; \
-			brew install u-boot-tools; \
-		else \
-			echo "Unsupported operating system. Please install u-boot-tools manually."; \
-			exit 1; \
-		fi; \
-	fi && \
-	$(OBJCOPY) $(hvisor_elf) --strip-all -O binary $(hvisor_bin).tmp && \
-	mkimage -n hvisor_img -A arm64 -O linux -C none -T kernel -a 0x40400000 \
-	-e 0x40400000 -d $(hvisor_bin).tmp $(hvisor_bin)
+	$(OBJCOPY) $(hvisor_elf) --strip-all -O binary $@
 
 HVISOR_BIN_FULL_PATH = $(shell readlink -f $(hvisor_bin))
 DEFAULT_PETALINUX_PROJECT_PATH = /home/wheatfox/Documents/Code/petalinux_projects/wheatfox_hw0

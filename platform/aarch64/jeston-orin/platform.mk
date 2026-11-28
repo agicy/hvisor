@@ -26,12 +26,7 @@ QEMU_ARGS += -drive if=none,file=$(FSIMG1),id=Xa003e000,format=raw
 QEMU_ARGS += -device virtio-blk-device,drive=Xa003e000,bus=virtio-mmio-bus.31
 
 $(hvisor_bin): elf
-	@if ! command -v mkimage > /dev/null; then \
-		sudo apt update && sudo apt install u-boot-tools; \
-	fi && \
-	$(OBJCOPY) $(hvisor_elf) --strip-all -O binary $(hvisor_bin).tmp && \
-	mkimage -n hvisor_img -A arm64 -O linux -C none -T kernel -a 0x81000000 \
-	-e 0x81000000 -d $(hvisor_bin).tmp $(hvisor_bin)
+	$(OBJCOPY) $(hvisor_elf) --strip-all -O binary $@
 
 QEMU_ARGS += -netdev type=user,id=net1
 QEMU_ARGS += -device virtio-net-pci,netdev=net1,disable-legacy=on,disable-modern=off,iommu_platform=on
