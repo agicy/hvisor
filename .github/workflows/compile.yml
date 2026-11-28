@@ -1,0 +1,51 @@
+name: Compile
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+      - luanlai/compile-action
+  pull_request:
+    branches:
+      - dev
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: nightly-2026-11-01
+          components: rust-src, llvm-tools-preview
+          targets: aarch64-unknown-none-softfloat, riscv64imac-unknown-none-elf, loongarch64-unknown-none-softfloat, x86_64-unknown-none
+
+      - name: Compile all platforms
+        env:
+          TERM: xterm
+        run: |
+          failed=()
+          for dir in platform/*/*/; do
+            bid="${dir#platform/}"
+            bid="${bid%/}"
+            echo "::group::Compile ${bid}"
+            if ! make all BID="${bid}" MODE=release; then
+              failed+=("${bid}")
+            fi
+            echo "::endgroup::"
+          done
+          if [ "${#failed[@]}" -ne 0 ]; then
+            echo "Failed platforms (${#failed[@]}): ${failed[*]}" >&2
+            exit 1
+          fi
