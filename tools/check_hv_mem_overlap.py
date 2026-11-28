@@ -16,16 +16,36 @@ Usage:
 Returns exit code 0 if no overlap, 1 if overlap detected or error.
 """
 
+import os
 import re
 import subprocess
 import sys
 from typing import Optional
 
 
+def resolve_nm() -> str:
+    """Resolve llvm-nm from NM env or the active rustc sysroot."""
+    env_nm = os.environ.get("NM")
+    if env_nm:
+        return env_nm
+    rustc = subprocess.run(
+        ["rustc", "--print", "target-libdir"],
+        capture_output=True,
+        text=True,
+    )
+    if rustc.returncode == 0 and rustc.stdout.strip():
+        candidate = os.path.join(
+            os.path.dirname(rustc.stdout.strip()), "bin", "llvm-nm"
+        )
+        if os.path.isfile(candidate):
+            return candidate
+    return "llvm-nm"
+
+
 def get_symbol_value(elf_path: str, symbol: str) -> Optional[int]:
-    """Read a symbol value from the ELF using rust-nm."""
+    """Read a symbol value from the ELF using llvm-nm."""
     result = subprocess.run(
-        ["rust-nm", elf_path],
+        [resolve_nm(), elf_path],
         capture_output=True,
         text=True,
     )

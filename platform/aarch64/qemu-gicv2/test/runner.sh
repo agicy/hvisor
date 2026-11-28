@@ -15,7 +15,7 @@ HVISOR_ELF=$CARGO_BUILD_INPUT_ARG0
 HVISOR_BIN_TMP=$HVISOR_ELF.bin.tmp
 HVISOR_BIN=$HVISOR_ELF.bin
 
-OBJCOPY=rust-objcopy
+OBJCOPY="$(dirname "$(rustc --print target-libdir)")/bin/llvm-objcopy"
 
 YELLOW='\033[1;33m'
 END='\033[0m'

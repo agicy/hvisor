@@ -52,7 +52,9 @@ else
 	$(error ERROR: Unsupported ARCH value: $(ARCH))
 endif
 
-OBJCOPY ?= rust-objcopy --binary-architecture=$(ARCH)
+LLVM_TOOLS_BIN := $(shell dirname "$$(rustc --print target-libdir)")/bin
+OBJCOPY ?= $(LLVM_TOOLS_BIN)/llvm-objcopy
+NM ?= $(LLVM_TOOLS_BIN)/llvm-nm
 
 export MODE
 export LOG
@@ -112,8 +114,8 @@ all: ensure_config gen_cargo_config $(hvisor_bin) check-hv-mem-overlap
 	@printf "%-10s %s\n" "RUSTC_TARGET    =" "$(COLOR_BOLD)$(RUSTC_TARGET)$(COLOR_RESET)"
 	@printf "%-10s %s\n" "BUILD_PATH      =" "$(COLOR_BOLD)$(build_path)$(COLOR_RESET)"
 	@printf "%-10s %s\n" "HVISON_BIN_SIZE =" "$(COLOR_BOLD)$(shell du -h $(hvisor_bin) | cut -f1)$(COLOR_RESET)"
-	@start_addr=$$(rust-nm $(hvisor_elf) | grep skernel | awk '{print $$1}'); \
-	 end_addr=$$(rust-nm $(hvisor_elf) | grep __hv_end | awk '{print $$1}'); \
+	@start_addr=$$($(NM) $(hvisor_elf) | grep skernel | awk '{print $$1}'); \
+	 end_addr=$$($(NM) $(hvisor_elf) | grep __hv_end | awk '{print $$1}'); \
 	 size=$$(echo "obase=16; ibase=16; $$(echo $$end_addr | tr 'a-z' 'A-Z') - $$(echo $$start_addr | tr 'a-z' 'A-Z')" | bc | tr 'A-Z' 'a-z'); \
 	 printf "%-10s %s\n" "START_ADDR      =" "$(COLOR_BOLD)0x$$start_addr$(COLOR_RESET)"; \
 	 printf "%-10s %s\n" "MEM_SIZE        =" "$(COLOR_BOLD)0x$$size$(COLOR_RESET)"; \
@@ -165,7 +167,7 @@ gen_cargo_config:
 
 check-hv-mem-overlap: $(hvisor_bin) platform/$(ARCH)/$(BOARD)/board.rs
 	@printf "$(COLOR_GREEN)$(COLOR_BOLD)checking hvisor memory vs root zone regions...$(COLOR_RESET)\n"
-	@python3 tools/check_hv_mem_overlap.py $(hvisor_elf) platform/$(ARCH)/$(BOARD)/board.rs && \
+	@NM="$(NM)" python3 tools/check_hv_mem_overlap.py $(hvisor_elf) platform/$(ARCH)/$(BOARD)/board.rs && \
 		printf "$(COLOR_GREEN)$(COLOR_BOLD)check passed!$(COLOR_RESET)\n" || \
 		(printf "$(COLOR_RED)$(COLOR_BOLD)OVERLAP DETECTED! See details above.$(COLOR_RESET)\n" && \
 		 false)
@@ -197,7 +199,7 @@ elf: ensure_config gen_cargo_config
 
 disa:
 	readelf -a $(hvisor_elf) > hvisor-elf.txt
-	rust-objdump --disassemble --source --line-numbers $(hvisor_elf) > hvisor.asm
+	$(LLVM_TOOLS_BIN)/llvm-objdump --disassemble --source --line-numbers $(hvisor_elf) > hvisor.asm
 
 run: all
 	$(QEMU) $(QEMU_ARGS)
