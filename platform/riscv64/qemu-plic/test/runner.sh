@@ -12,7 +12,8 @@ BOARD=${BOARD}
 HVISOR_ELF=$CARGO_BUILD_INPUT_ARG0
 HVISOR_BIN=$HVISOR_ELF.bin
 
-OBJCOPY=rust-objcopy
+LLVM_TOOLS="$(rustc --print sysroot)/lib/rustlib/$(rustc -vV | sed -n 's/^host: //p')/bin"
+OBJCOPY="$LLVM_TOOLS/llvm-objcopy"
 
 YELLOW='\033[1;33m'
 END='\033[0m'

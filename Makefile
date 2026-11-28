@@ -52,7 +52,12 @@ else
 	$(error ERROR: Unsupported ARCH value: $(ARCH))
 endif
 
-OBJCOPY ?= rust-objcopy --binary-architecture=$(ARCH)
+# llvm-objcopy / llvm-nm 来自 rust-toolchain.toml 的 llvm-tools-preview 组件。
+# `--binary-architecture` 只对 binary 输入有意义，ELF -> binary 方向会被忽略。
+HOST_TRIPLE := $(shell rustc -vV | sed -n 's/^host: //p')
+LLVM_TOOLS := $(shell rustc --print sysroot)/lib/rustlib/$(HOST_TRIPLE)/bin
+OBJCOPY ?= $(LLVM_TOOLS)/llvm-objcopy
+NM ?= $(LLVM_TOOLS)/llvm-nm
 
 export MODE
 export LOG
@@ -112,8 +117,8 @@ all: ensure_config gen_cargo_config $(hvisor_bin) check-hv-mem-overlap
 	@printf "%-10s %s\n" "RUSTC_TARGET    =" "$(COLOR_BOLD)$(RUSTC_TARGET)$(COLOR_RESET)"
 	@printf "%-10s %s\n" "BUILD_PATH      =" "$(COLOR_BOLD)$(build_path)$(COLOR_RESET)"
 	@printf "%-10s %s\n" "HVISON_BIN_SIZE =" "$(COLOR_BOLD)$(shell du -h $(hvisor_bin) | cut -f1)$(COLOR_RESET)"
-	@start_addr=$$(rust-nm $(hvisor_elf) | grep skernel | awk '{print $$1}'); \
-	 end_addr=$$(rust-nm $(hvisor_elf) | grep __hv_end | awk '{print $$1}'); \
+	@start_addr=$$($(NM) $(hvisor_elf) | grep skernel | awk '{print $$1}'); \
+	 end_addr=$$($(NM) $(hvisor_elf) | grep __hv_end | awk '{print $$1}'); \
 	 size=$$(echo "obase=16; ibase=16; $$(echo $$end_addr | tr 'a-z' 'A-Z') - $$(echo $$start_addr | tr 'a-z' 'A-Z')" | bc | tr 'A-Z' 'a-z'); \
 	 printf "%-10s %s\n" "START_ADDR      =" "$(COLOR_BOLD)0x$$start_addr$(COLOR_RESET)"; \
 	 printf "%-10s %s\n" "MEM_SIZE        =" "$(COLOR_BOLD)0x$$size$(COLOR_RESET)"; \

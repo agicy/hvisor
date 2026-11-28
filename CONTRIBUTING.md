@@ -19,7 +19,7 @@ Thank you for contributing to hvisor. hvisor is a Type-1 hypervisor that runs on
 
 1. Read the [README](./README.md) and the documentation for the target platform. Check whether the problem is already covered by an Issue or PR.
 2. For large features, interface changes, or architecture changes, open an Issue describing the motivation, scope, and proposed approach first. Small fixes may go directly into a PR.
-3. hvisor pins its Rust toolchain in `rust-toolchain.toml`. Prepare `rust-src`, `rustfmt`, `LLVM/cargo-binutils`, `QEMU`, the cross compiler required by the target platform, and the required `Python` dependencies. Hardware testing also requires the relevant board, serial connection, and network environment.
+3. hvisor pins its Rust toolchain in `rust-toolchain.toml`. Prepare `rust-src`, `rustfmt`, `llvm-tools-preview` (provides `llvm-objcopy` / `llvm-nm`), `QEMU`, the cross compiler required by the target platform, and the required `Python` dependencies. Hardware testing also requires the relevant board, serial connection, and network environment.
 4. Before and after making a change, identify its impact on architectures (`aarch64`, `riscv64`, `loongarch64`, and `x86_64`), boards, zones, devices, configuration files, and user-visible behavior. Keep each PR focused on one issue where possible. Describe the impact on shared cross-architecture code separately from platform-specific code.
 
 ## Collaboration

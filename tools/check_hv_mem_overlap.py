@@ -16,16 +16,29 @@ Usage:
 Returns exit code 0 if no overlap, 1 if overlap detected or error.
 """
 
+import os
 import re
 import subprocess
 import sys
 from typing import Optional
 
 
+def _llvm_tool(name: str) -> str:
+    """Locate an llvm-tools binary inside the rustup sysroot."""
+    sysroot = subprocess.check_output(["rustc", "--print", "sysroot"], text=True).strip()
+    version = subprocess.check_output(["rustc", "-vV"], text=True)
+    host = next(
+        line.split(": ", 1)[1]
+        for line in version.splitlines()
+        if line.startswith("host: ")
+    )
+    return os.path.join(sysroot, "lib", "rustlib", host, "bin", name)
+
+
 def get_symbol_value(elf_path: str, symbol: str) -> Optional[int]:
-    """Read a symbol value from the ELF using rust-nm."""
+    """Read a symbol value from the ELF using llvm-nm."""
     result = subprocess.run(
-        ["rust-nm", elf_path],
+        [_llvm_tool("llvm-nm"), elf_path],
         capture_output=True,
         text=True,
     )
